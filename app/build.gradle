@@ -4,14 +4,23 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'io.realm.kotlin'
-    id 'com.google.devtools.ksp' version '1.6.21-1.0.6'
+    id 'com.google.devtools.ksp' version '1.7.10-1.0.6'
 
 //    id 'com.google.gms.google-services'
 }
 android {
     namespace 'com.example.diaryandroid'
     compileSdk 33
-
+    kotlin {
+        sourceSets {
+            debug {
+                kotlin.srcDir("build/generated/ksp/debug/kotlin")
+            }
+            release {
+                kotlin.srcDir("build/generated/ksp/release/kotlin")
+            }
+        }
+    }
     defaultConfig {
         applicationId "com.example.diaryandroid"
         minSdk 31

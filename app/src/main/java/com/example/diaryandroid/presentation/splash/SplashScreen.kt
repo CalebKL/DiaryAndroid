@@ -1,4 +1,4 @@
-package com.example.diaryandroid.splash
+package com.example.diaryandroid.presentation.splash
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +12,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
 import com.example.diaryandroid.R
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 @Destination(start = true)
 @Composable
@@ -25,12 +26,12 @@ fun SplashScreen(
         var animateLogo by remember { mutableStateOf(true) }
 
         if (animateLogo) LottieLoader(
-            modifier = Modifier.size(270.dp),
+            modifier = Modifier.size(300.dp),
             lottieFile = R.raw.splash_lottie
         )
 
         LaunchedEffect(Unit) {
-            delay(2900)
+            delay(5000)
             animateLogo = false
             navigator?.popBackStack()
 
