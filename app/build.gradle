@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'io.realm.kotlin'
+    id 'com.google.devtools.ksp' version '1.6.21-1.0.6'
+
 //    id 'com.google.gms.google-services'
 }
 android {
@@ -116,4 +118,20 @@ dependencies {
 
     // Desugar JDK
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.0'
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // RaamCosta Navigation
+    implementation 'io.github.raamcosta.compose-destinations:animations-core:1.6.15-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.6.15-beta'
+
+    // Lottie
+    implementation "com.airbnb.android:lottie-compose:5.0.3"
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.1.0")
+    implementation "io.coil-kt:coil-gif:2.1.0"
+
+
 }
