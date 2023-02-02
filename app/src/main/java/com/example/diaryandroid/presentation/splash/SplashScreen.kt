@@ -12,6 +12,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
 import com.example.diaryandroid.R
+import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 @Destination(start = true)
@@ -34,7 +35,7 @@ fun SplashScreen(
             delay(5000)
             animateLogo = false
             navigator?.popBackStack()
-
+            navigator?.navigate(AuthenticationScreenDestination)
         }
     }
 }
