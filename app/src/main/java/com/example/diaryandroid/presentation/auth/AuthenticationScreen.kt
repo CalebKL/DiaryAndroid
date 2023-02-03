@@ -1,10 +1,15 @@
 package com.example.diaryandroid.presentation.auth
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.example.diaryandroid.presentation.auth.components.AuthenticationContent
 import com.example.diaryandroid.presentation.destinations.HomeScreenDestination
 import com.example.diaryandroid.util.Constants.CLIENT_ID
@@ -29,6 +34,10 @@ fun AuthenticationScreen(
     val authenticated by viewModel.authenticated
     val loadingState by viewModel.loadingState
     Scaffold(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .navigationBarsPadding()
+            .statusBarsPadding(),
         content = {
             val unUsedPadding = it
             ContentWithMessageBar(messageBarState = messageBarState) {
