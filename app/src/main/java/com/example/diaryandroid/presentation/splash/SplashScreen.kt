@@ -13,7 +13,10 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
 import com.example.diaryandroid.R
 import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
+import com.example.diaryandroid.presentation.destinations.HomeScreenDestination
+import com.example.diaryandroid.util.Constants.APP_ID
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import io.realm.kotlin.mongodb.App
 
 @Destination(start = true)
 @Composable
@@ -35,7 +38,9 @@ fun SplashScreen(
             delay(5000)
             animateLogo = false
             navigator?.popBackStack()
-            navigator?.navigate(AuthenticationScreenDestination)
+            val user = App.Companion.create(APP_ID).currentUser
+            if (user != null && user.loggedIn) navigator?.navigate(HomeScreenDestination)
+            else navigator?.navigate(AuthenticationScreenDestination)
         }
     }
 }
