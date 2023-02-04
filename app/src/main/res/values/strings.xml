@@ -5,4 +5,5 @@
     <string name="hamburger_menu_icon">Hamburger Menu Icon</string>
     <string name="diary">Diary</string>
     <string name="date_range">Date range</string>
+    <string name="new_diary_icon">New Diary Icon</string>
 </resources>
