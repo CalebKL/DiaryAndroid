@@ -1,5 +1,6 @@
 package com.example.diaryandroid.model
 
+import Mood
 import io.realm.kotlin.types.annotations.PrimaryKey
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.ObjectId
@@ -11,6 +12,7 @@ open class Diary : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId.create()
     var ownerId: String = ""
+    var mood: String = Mood.Neutral.name
     var title: String = ""
     var description: String = ""
     var images: RealmList<String> = realmListOf()
