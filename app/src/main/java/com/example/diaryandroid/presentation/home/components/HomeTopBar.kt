@@ -18,7 +18,9 @@ fun HomeTopBar(
             IconButton(onClick = { onMenuClicked() }) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = stringResource(R.string.hamburger_menu_icon)
+                    contentDescription = stringResource(R.string.hamburger_menu_icon),
+                    tint = MaterialTheme.colorScheme.onSurface
+
                 )
             }
         },
@@ -29,7 +31,8 @@ fun HomeTopBar(
             IconButton(onClick = { onMenuClicked() }) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
-                    contentDescription = stringResource(R.string.date_range)
+                    contentDescription = stringResource(R.string.date_range),
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
