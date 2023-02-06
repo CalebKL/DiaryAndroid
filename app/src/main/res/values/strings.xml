@@ -6,4 +6,9 @@
     <string name="diary">Diary</string>
     <string name="date_range">Date range</string>
     <string name="new_diary_icon">New Diary Icon</string>
+    <string name="logo">logo</string>
+    <string name="google_logo">google logo</string>
+    <string name="sign_out">Sign out</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
