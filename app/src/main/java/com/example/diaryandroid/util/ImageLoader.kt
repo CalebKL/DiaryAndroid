@@ -76,7 +76,7 @@ fun LottieLoader(
 @Composable
 fun GifImageLoader(
     modifier: Modifier = Modifier,
-    @RawRes resource: Int,
+    images: String,
 ) {
     val context = LocalContext.current
     val imageLoader = ImageLoader.Builder(context)
@@ -90,7 +90,7 @@ fun GifImageLoader(
     Image(
         painter = rememberAsyncImagePainter(
             ImageRequest.Builder(context)
-                .data(data = resource)
+                .data(data = images)
                 .apply(block = {
                     size(Size.ORIGINAL)
                 }).build(), imageLoader = imageLoader
