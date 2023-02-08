@@ -1,6 +1,7 @@
 package com.example.diaryandroid.presentation.common
 
 import androidx.annotation.RawRes
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +14,9 @@ import com.example.diaryandroid.util.LottieLoader
 
 @Composable
 fun NoMatchFound(@RawRes lottie: Int) {
-    Box(modifier = Modifier.fillMaxHeight(0.9F).fillMaxWidth(), contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier
+        .fillMaxHeight(0.9F)
+        .fillMaxWidth(), contentAlignment = Alignment.Center) {
         LottieLoader(lottieFile = lottie, modifier = Modifier.size(250.dp))
     }
 }

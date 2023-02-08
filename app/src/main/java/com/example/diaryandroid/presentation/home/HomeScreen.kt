@@ -12,6 +12,7 @@ import com.example.diaryandroid.R
 import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
 import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
+import com.example.diaryandroid.presentation.home.components.HomeContent
 import com.example.diaryandroid.presentation.home.components.HomeTopBar
 import com.example.diaryandroid.presentation.home.components.NavigationDrawer
 import com.example.diaryandroid.util.Constants.APP_ID
@@ -63,6 +64,10 @@ fun HomeScreen(
            },
            content = {
                val unUsedPadding = it
+               HomeContent(
+                   diaryNotes = mapOf(),
+                   onClick = {}
+               )
            }
        )
    }
