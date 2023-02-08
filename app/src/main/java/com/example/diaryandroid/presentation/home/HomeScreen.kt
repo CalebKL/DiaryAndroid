@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.diaryandroid.R
+import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
 import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
 import com.example.diaryandroid.presentation.home.components.HomeTopBar
@@ -30,7 +31,9 @@ fun HomeScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var signOutDialogOpened by remember { mutableStateOf(false) }
-
+    LaunchedEffect(key1 = Unit){
+        MongoDB.configureTheRealm()
+    }
     NavigationDrawer(
        drawerState =drawerState,
        onSignOutClicked = {
