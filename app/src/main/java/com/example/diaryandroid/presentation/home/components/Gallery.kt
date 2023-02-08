@@ -17,8 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-
-import com.example.diaryandroid.util.GifImageLoader
+import com.example.diaryandroid.util.ImagesLoader
 import kotlin.math.max
 
 @Composable
@@ -45,7 +44,7 @@ fun Gallery(
         }
         Row{
            images.take(numberOfVisibleImages.value).forEach {image->
-               GifImageLoader(
+               ImagesLoader(
                    modifier= Modifier
                        .clip(imageShape)
                        .size(imageSize),

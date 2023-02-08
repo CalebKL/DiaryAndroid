@@ -1,9 +1,7 @@
 package com.example.diaryandroid.presentation.home.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +17,11 @@ import java.time.LocalDate
 fun DateHeader(
     localDate: LocalDate
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier
+            .padding(vertical = 14.dp)
+            .background(MaterialTheme.colorScheme.onSurface),
+        verticalAlignment = Alignment.CenterVertically) {
         Column( horizontalAlignment = Alignment.End) {
             Text(
                 text = String.format("%2d", localDate.dayOfMonth),

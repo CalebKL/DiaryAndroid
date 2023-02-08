@@ -76,7 +76,35 @@ fun LottieLoader(
 @Composable
 fun GifImageLoader(
     modifier: Modifier = Modifier,
-    images: String,
+    @RawRes resource: Int
+) {
+    val context = LocalContext.current
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
+            if (Build.VERSION.SDK_INT >= 28) {
+                add(ImageDecoderDecoder.Factory())
+            } else {
+                add(GifDecoder.Factory())
+            }
+        }.build()
+    Image(
+        painter = rememberAsyncImagePainter(
+            ImageRequest.Builder(context)
+                .data(data = resource)
+                .apply(block = {
+                    size(Size.ORIGINAL)
+                }).build(), imageLoader = imageLoader
+        ),
+        contentDescription = null,
+        modifier = modifier.fillMaxWidth(),
+    )
+}
+
+
+@Composable
+fun ImagesLoader(
+    modifier: Modifier = Modifier,
+    images: String
 ) {
     val context = LocalContext.current
     val imageLoader = ImageLoader.Builder(context)
