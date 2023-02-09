@@ -19,8 +19,9 @@ fun DateHeader(
 ) {
     Row(
         modifier = Modifier
-            .padding(vertical = 14.dp)
-            .background(MaterialTheme.colorScheme.onSurface),
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Column( horizontalAlignment = Alignment.End) {
             Text(

@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -38,10 +39,11 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
 ) {
     var padding by remember { mutableStateOf(PaddingValues()) }
-   val diaries by viewModel.diaries
+    val diaries by viewModel.diaries
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var signOutDialogOpened by remember { mutableStateOf(false) }
+    val scrollBehaviour = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     LaunchedEffect(key1 = Unit){
         MongoDB.configureTheRealm()
     }
@@ -54,9 +56,11 @@ fun HomeScreen(
        Scaffold(
            modifier = Modifier
                .navigationBarsPadding()
-               .statusBarsPadding(),
+               .statusBarsPadding()
+               .nestedScroll(scrollBehaviour.nestedScrollConnection),
            topBar = {
                HomeTopBar(
+                   scrollBehavior = scrollBehaviour,
                    onMenuClicked = {
                        scope.launch {
                            drawerState.open()
