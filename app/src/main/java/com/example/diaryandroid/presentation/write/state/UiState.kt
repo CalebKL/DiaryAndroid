@@ -5,5 +5,5 @@ import com.example.diaryandroid.model.Diary
 data class UiState(
     val isLoading: Boolean = false,
     val diary: Diary? = null,
-    val error: String = ""
+    val error: String = "",
 )

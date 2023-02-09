@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diaryandroid.presentation.common.NoMatchFound
-import com.example.diaryandroid.presentation.common.RetryButton
 import com.example.diaryandroid.presentation.destinations.WriteScreenDestination
 import com.example.diaryandroid.util.GifImageLoader
 import com.example.diaryandroid.util.Resource

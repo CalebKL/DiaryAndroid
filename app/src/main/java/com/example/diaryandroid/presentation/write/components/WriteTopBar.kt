@@ -22,19 +22,23 @@ import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
 fun WriteTopBar(
     selectedDiary: Diary?,
     onDeleteConfirmed: () -> Unit,
-    onBackPressed:()->Unit
+    onBackPressed:()->Unit,
+    moodName:()->String
 ) {
     CenterAlignedTopAppBar(
         navigationIcon = {
             IconButton(onClick =  onBackPressed ) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = stringResource(R.string.arrow_back))
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(R.string.arrow_back)
+                )
             }
         },
         title = {
             Column {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Happy",
+                    text = moodName(),
                     style = TextStyle(
                         fontSize = MaterialTheme.typography.titleLarge.fontSize,
                         fontWeight = FontWeight.Bold
