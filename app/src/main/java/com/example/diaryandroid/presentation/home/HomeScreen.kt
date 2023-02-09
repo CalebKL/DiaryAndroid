@@ -73,7 +73,7 @@ fun HomeScreen(
                FloatingActionButton(
                    modifier = Modifier.padding(end = padding.calculateEndPadding(LayoutDirection.Ltr)),
                    onClick = {
-                       navigator?.navigate(WriteScreenDestination)
+                       navigator?.navigate(WriteScreenDestination())
                    }
                ) {
                    Icon(
@@ -82,7 +82,7 @@ fun HomeScreen(
                    )
                }
            },
-           content = {
+           content = { it ->
                padding = it
                when(diaries){
                    is Resource.Loading ->{
@@ -97,7 +97,17 @@ fun HomeScreen(
                        HomeContent(
                            paddingValues= padding,
                            diaryNotes =diaries.data!!,
-                           onClick = {}
+                           onClick = {
+                               navigator?.navigate(WriteScreenDestination(
+                                   title = diaries.data!!.values.map {diary->
+                                       diary.first().title
+                                   }.toString() ,
+                                   description =  diaries.data!!.values.map {diary->
+                                       diary.first().description
+                                   }.toString(),
+
+                               ))
+                           }
                        )
                    }
                    is Resource.Error ->{

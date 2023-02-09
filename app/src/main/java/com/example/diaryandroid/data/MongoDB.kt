@@ -10,6 +10,7 @@ import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.query.Sort
+import io.realm.kotlin.types.ObjectId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -63,6 +64,19 @@ object MongoDB: MongoRepository {
             flow {
                 emit(Resource.Error(message = "User is not Logged in"))
             }
+        }
+    }
+
+    override fun getSelectedDiary(diaryId: ObjectId): Resource<Diary> {
+       return if (user != null){
+            try {
+                val diary = realm.query<Diary>(query = "_id == $0", diaryId).find().first()
+                Resource.Success(data = diary)
+            }catch (e:Exception){
+                Resource.Error(message = e.localizedMessage?:"Error Occurred")
+            }
+        }else{
+            Resource.Error(message = "User not Authenticated!")
         }
     }
 }

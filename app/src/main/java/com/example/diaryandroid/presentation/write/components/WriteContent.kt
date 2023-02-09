@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -29,7 +30,8 @@ fun WriteContent(
     paddingValues: PaddingValues,
     scrollState: ScrollState,
     pagerState: PagerState,
-    title:String,
+    title:String?= null,
+    description:String?= null,
     onTitleChanged:(String)->Unit,
     onDescriptionChanged:(String)->Unit
 ) {
@@ -64,8 +66,8 @@ fun WriteContent(
             Spacer(modifier = Modifier.height(30.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = title,
-                onValueChange = onTitleChanged, 
+                value = title?:"",
+                onValueChange = onTitleChanged,
                 placeholder = { Text(text = "Title") },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
@@ -85,7 +87,7 @@ fun WriteContent(
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = title,
+                value = description?:"",
                 onValueChange = onDescriptionChanged,
                 placeholder = { Text(text = "Tell me about it") },
                 colors = TextFieldDefaults.textFieldColors(
@@ -106,7 +108,9 @@ fun WriteContent(
         Column(verticalArrangement = Arrangement.Bottom) {
             Spacer(modifier = Modifier.height(12.dp))
             Button(
-                modifier = Modifier.fillMaxWidth().height(54.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp),
                 shape = MaterialTheme.shapes.small,
                 onClick = { /*TODO*/ }) {
                 Text(text = "Save")
