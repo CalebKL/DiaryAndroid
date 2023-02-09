@@ -12,4 +12,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="arrow_back">Arrow Back</string>
+    <string name="mood_image">Mood Image</string>
 </resources>
