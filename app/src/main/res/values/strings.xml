@@ -11,4 +11,5 @@
     <string name="sign_out">Sign out</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="arrow_back">Arrow Back</string>
 </resources>
