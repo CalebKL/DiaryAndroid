@@ -33,7 +33,7 @@ fun WriteContent(
     title:String?= null,
     description:String?= null,
     onTitleChanged:(String)->Unit,
-    onDescriptionChanged:(String)->Unit
+    onDescriptionChanged:(String)->Unit,
 ) {
     Column(
         modifier = Modifier

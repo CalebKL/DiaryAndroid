@@ -17,7 +17,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.realm.kotlin.types.ObjectId
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.*
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 @Destination
@@ -27,28 +26,26 @@ fun WriteScreen(
     description:String?= null,
     navigator: DestinationsNavigator?,
     viewModel: WriteViewModel = viewModel(),
+    mood:String? = null
 ) {
-    val state = viewModel.uiState
+    val state = viewModel.moodState
     val pagerState = rememberPagerState()
     val scrollState = rememberScrollState()
     val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
     Scaffold(
         topBar = {
-                 WriteTopBar(
-                     onBackPressed = {
-                         navigator?.popBackStack()
-                     },
-                     selectedDiary =null,
-                     onDeleteConfirmed = {},
-                     moodName = {Mood.values()[pageNumber].name}
-                 )
+            WriteTopBar(
+                onBackPressed = {
+                    navigator?.popBackStack()
+                },
+                selectedDiary =null,
+                onDeleteConfirmed = {},
+                moodName = {Mood.values()[pageNumber].name},
+            )
         },
         content = {
             LaunchedEffect(key1 = Unit){
                 viewModel.onGetDiaryDetails(diaryId = diaryId)
-            }
-            LaunchedEffect(key1 = Mood.Neutral) {
-                pagerState.scrollToPage(Mood.valueOf(Mood.Neutral.name).ordinal)
             }
             WriteContent(
                 paddingValues = it,
@@ -57,7 +54,7 @@ fun WriteScreen(
                 title = title,
                 description = description,
                 onTitleChanged = {},
-                onDescriptionChanged = {}
+                onDescriptionChanged = {},
             )
         }
     )

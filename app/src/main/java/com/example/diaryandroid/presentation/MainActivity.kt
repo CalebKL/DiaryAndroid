@@ -8,7 +8,6 @@ import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.presentation.ui.theme.DiaryAndroidTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)

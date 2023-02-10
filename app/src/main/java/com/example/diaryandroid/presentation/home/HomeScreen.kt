@@ -1,5 +1,6 @@
 package com.example.diaryandroid.presentation.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -30,6 +31,7 @@ import com.example.diaryandroid.presentation.common.NoMatchFound
 import com.example.diaryandroid.presentation.destinations.WriteScreenDestination
 import com.example.diaryandroid.util.GifImageLoader
 import com.example.diaryandroid.util.Resource
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -104,8 +106,10 @@ fun HomeScreen(
                                    description =  diaries.data!!.values.map {diary->
                                        diary.first().description
                                    }.toString(),
-
-                               ))
+                                   mood = diaries.data!!.values.map { diary ->
+                                       diary.first().mood
+                                   }.toString()
+                                   ))
                            }
                        )
                    }
