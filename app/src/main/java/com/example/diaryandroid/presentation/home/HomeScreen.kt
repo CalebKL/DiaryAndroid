@@ -29,6 +29,7 @@ import kotlinx.coroutines.withContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diaryandroid.presentation.common.NoMatchFound
 import com.example.diaryandroid.presentation.destinations.WriteScreenDestination
+import com.example.diaryandroid.presentation.write.WriteViewModel
 import com.example.diaryandroid.util.GifImageLoader
 import com.example.diaryandroid.util.Resource
 import timber.log.Timber
@@ -39,6 +40,7 @@ import timber.log.Timber
 fun HomeScreen(
     navigator: DestinationsNavigator?,
     viewModel: HomeViewModel = viewModel(),
+    writeViewModel: WriteViewModel = viewModel(),
 ) {
     var padding by remember { mutableStateOf(PaddingValues()) }
     val diaries by viewModel.diaries
@@ -99,6 +101,8 @@ fun HomeScreen(
                            paddingValues= padding,
                            diaryNotes =diaries.data!!,
                            onClick = {
+                               val id =  diaries.data!!.values.first().first()._id
+                               writeViewModel.updateDiaryId(id)
                                navigator?.navigate(WriteScreenDestination(
                                    title = diaries.data!!.values.map {diary->
                                        diary.first().title
@@ -108,7 +112,8 @@ fun HomeScreen(
                                    }.toString(),
                                    mood = diaries.data!!.values.map { diary ->
                                        diary.first().mood
-                                   }.toString()
+                                   }.toString(),
+
                                    ))
                            }
                        )

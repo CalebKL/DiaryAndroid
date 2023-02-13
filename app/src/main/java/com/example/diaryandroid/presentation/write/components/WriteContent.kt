@@ -34,6 +34,7 @@ fun WriteContent(
     description:String?= null,
     onTitleChanged:(String)->Unit,
     onDescriptionChanged:(String)->Unit,
+    onResetButton:()-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -112,7 +113,7 @@ fun WriteContent(
                     .fillMaxWidth()
                     .height(54.dp),
                 shape = MaterialTheme.shapes.small,
-                onClick = { /*TODO*/ }) {
+                onClick = (onResetButton)) {
                 Text(text = "Save")
             }
         }

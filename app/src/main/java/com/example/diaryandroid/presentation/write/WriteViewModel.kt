@@ -9,31 +9,49 @@ import com.example.diaryandroid.model.Diary
 import com.example.diaryandroid.util.Resource
 import io.realm.kotlin.types.ObjectId
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class WriteViewModel:ViewModel() {
-    var moodState = mutableStateOf(Mood.Neutral)
+    private val _moodState: MutableStateFlow<Mood> = MutableStateFlow(Mood.Neutral)
+    var moodState: StateFlow<Mood> = _moodState.asStateFlow()
+        private set
     var uiState = mutableStateOf(UiState())
         private set
+    private val diaryId= MutableStateFlow<ObjectId?>(ObjectId.create())
 
-    fun onGetDiaryDetails(diaryId:ObjectId?){
-        if (diaryId != null) {
-            MongoDB.getSelectedDiary(diaryId = diaryId).let {result->
+    fun updateDiaryId(id: ObjectId){
+        diaryId.value = id
+    }
+    fun resetDiaryId(){
+        diaryId.value = null
+    }
+    fun onGetDiaryDetails(){
+        if (diaryId.value != null) {
+            MongoDB.getSelectedDiary(diaryId = diaryId.value!!).let {result->
+                Timber.e("mood_result $result")
                 when(result){
                     is Resource.Loading ->{
                         uiState.value = UiState(isLoading = true)
                     }
                     is Resource.Success->{
                         uiState.value = UiState(diary = result.data)
-                        moodState.value = Mood.valueOf(result.data!!.mood)
+                        _moodState.value = Mood.valueOf(result.data!!.mood)
+                        Timber.e("moodSuccess$result")
                     }
                     is Resource.Error ->{
                         uiState.value = UiState(error = result.message!!)
+                        Timber.e("mood error$result")
                     }
                 }
             }
+        }else{
+            val y = 1+2
         }
     }
 }

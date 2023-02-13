@@ -22,7 +22,7 @@ import androidx.compose.runtime.*
 @Destination
 fun WriteScreen(
     title: String? = null,
-    diaryId: ObjectId? = null,
+    diaryId: String? = null,
     description:String?= null,
     navigator: DestinationsNavigator?,
     viewModel: WriteViewModel = viewModel(),
@@ -32,11 +32,14 @@ fun WriteScreen(
     val pagerState = rememberPagerState()
     val scrollState = rememberScrollState()
     val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
+    viewModel.onGetDiaryDetails()
+
     Scaffold(
         topBar = {
             WriteTopBar(
                 onBackPressed = {
                     navigator?.popBackStack()
+                    viewModel.resetDiaryId()
                 },
                 selectedDiary =null,
                 onDeleteConfirmed = {},
@@ -44,8 +47,12 @@ fun WriteScreen(
             )
         },
         content = {
-            LaunchedEffect(key1 = Unit){
-                viewModel.onGetDiaryDetails(diaryId = diaryId)
+            val moodState = viewModel.moodState.collectAsState()
+//            LaunchedEffect(key1 = Unit){
+//                viewModel.onGetDiaryDetails(diaryId = diaryId)
+//            }
+            LaunchedEffect(key1 = moodState) {
+                pagerState.scrollToPage(Mood.valueOf(moodState.value.name).ordinal)
             }
             WriteContent(
                 paddingValues = it,
@@ -55,6 +62,9 @@ fun WriteScreen(
                 description = description,
                 onTitleChanged = {},
                 onDescriptionChanged = {},
+                onResetButton = {
+                    viewModel.resetDiaryId()
+                }
             )
         }
     )
