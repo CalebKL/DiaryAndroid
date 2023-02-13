@@ -79,4 +79,19 @@ object MongoDB: MongoRepository {
             Resource.Error(message = "User not Authenticated!")
         }
     }
+
+    override suspend fun addNewDiary(diary: Diary): Resource<Diary> {
+        return if (user != null){
+         realm.write {
+             try {
+                 val addedDiary = copyToRealm(diary.apply { ownerId = user.identity })
+                 Resource.Success(data = addedDiary)
+             }catch (e:Exception){
+                 Resource.Error(message = e.localizedMessage?:"Error Occurred")
+             }
+         }
+        }else{
+            Resource.Error(message = "User not Authenticated!")
+        }
+    }
 }
