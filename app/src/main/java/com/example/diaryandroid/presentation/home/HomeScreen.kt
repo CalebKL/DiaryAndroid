@@ -1,6 +1,5 @@
 package com.example.diaryandroid.presentation.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -12,27 +11,26 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diaryandroid.R
 import com.example.diaryandroid.data.MongoDB
+import com.example.diaryandroid.presentation.common.NoMatchFound
 import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
+import com.example.diaryandroid.presentation.destinations.WriteScreenDestination
 import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
 import com.example.diaryandroid.presentation.home.components.HomeContent
 import com.example.diaryandroid.presentation.home.components.HomeTopBar
 import com.example.diaryandroid.presentation.home.components.NavigationDrawer
+import com.example.diaryandroid.presentation.write.WriteViewModel
 import com.example.diaryandroid.util.Constants.APP_ID
+import com.example.diaryandroid.util.GifImageLoader
+import com.example.diaryandroid.util.Resource
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.diaryandroid.presentation.common.NoMatchFound
-import com.example.diaryandroid.presentation.destinations.WriteScreenDestination
-import com.example.diaryandroid.presentation.write.WriteViewModel
-import com.example.diaryandroid.util.GifImageLoader
-import com.example.diaryandroid.util.Resource
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -76,7 +74,6 @@ fun HomeScreen(
                FloatingActionButton(
                    modifier = Modifier.padding(end = padding.calculateEndPadding(LayoutDirection.Ltr)),
                    onClick = {
-                       navigator?.navigate(WriteScreenDestination())
                    }
                ) {
                    Icon(
@@ -85,7 +82,7 @@ fun HomeScreen(
                    )
                }
            },
-           content = { it ->
+           content = {
                padding = it
                when(diaries){
                    is Resource.Loading ->{
@@ -103,18 +100,7 @@ fun HomeScreen(
                            onClick = {
                                val id =  diaries.data!!.values.first().first()._id
                                writeViewModel.updateDiaryId(id)
-                               navigator?.navigate(WriteScreenDestination(
-                                   title = diaries.data!!.values.map {diary->
-                                       diary.first().title
-                                   }.toString() ,
-                                   description =  diaries.data!!.values.map {diary->
-                                       diary.first().description
-                                   }.toString(),
-                                   mood = diaries.data!!.values.map { diary ->
-                                       diary.first().mood
-                                   }.toString(),
-
-                                   ))
+                               navigator?.navigate(WriteScreenDestination())
                            }
                        )
                    }

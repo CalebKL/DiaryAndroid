@@ -1,7 +1,9 @@
 package com.example.diaryandroid.presentation.write
 
 import Mood
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.diaryandroid.data.MongoDB
@@ -18,10 +20,7 @@ import timber.log.Timber
 
 
 class WriteViewModel:ViewModel() {
-    private val _moodState: MutableStateFlow<Mood> = MutableStateFlow(Mood.Neutral)
-    var moodState: StateFlow<Mood> = _moodState.asStateFlow()
-        private set
-    var uiState = mutableStateOf(UiState())
+    var uiState by mutableStateOf(UiState())
         private set
     private val diaryId= MutableStateFlow<ObjectId?>(ObjectId.create())
 
@@ -31,32 +30,42 @@ class WriteViewModel:ViewModel() {
     fun resetDiaryId(){
         diaryId.value = null
     }
-    fun onGetDiaryDetails(){
-        if (diaryId.value != null) {
-            MongoDB.getSelectedDiary(diaryId = diaryId.value!!).let {result->
-                Timber.e("mood_result $result")
-                when(result){
-                    is Resource.Loading ->{
-                        uiState.value = UiState(isLoading = true)
-                    }
-                    is Resource.Success->{
-                        uiState.value = UiState(diary = result.data)
-                        _moodState.value = Mood.valueOf(result.data!!.mood)
-                        Timber.e("moodSuccess$result")
-                    }
-                    is Resource.Error ->{
-                        uiState.value = UiState(error = result.message!!)
-                        Timber.e("mood error$result")
-                    }
-                }
+    init {
+        fetchSelectedDiary()
+    }
+    private fun fetchSelectedDiary(){
+        if (uiState.selectedDiaryId != null) {
+            val result = MongoDB.getSelectedDiary(
+                diaryId =ObjectId.from(uiState.selectedDiaryId!!))
+            if (result is Resource.Success){
+                setSelectedDiary(diary = result.data!!)
+                setTitle(title = result.data.title)
+                setDescription(description = result.data.description )
+                setMood(mood = Mood.valueOf(result.data.mood))
             }
-        }else{
-            val y = 1+2
         }
     }
+    private fun setSelectedDiary(diary: Diary) {
+        uiState = uiState.copy(selectedDiary = diary)
+    }
+
+    fun setTitle(title: String) {
+        uiState = uiState.copy(title = title)
+    }
+
+    fun setDescription(description: String) {
+        uiState = uiState.copy(description = description)
+    }
+
+    private fun setMood(mood: Mood) {
+        uiState = uiState.copy(mood = mood)
+    }
+
 }
 data class UiState(
-    val isLoading: Boolean = false,
-    val diary: Diary? = null,
-    val error: String = "",
+    val selectedDiaryId: String? = null,
+    val selectedDiary: Diary? = null,
+    val title: String = "",
+    val description: String = "",
+    val mood: Mood = Mood.Neutral,
 )

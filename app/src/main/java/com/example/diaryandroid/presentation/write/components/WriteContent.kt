@@ -30,11 +30,10 @@ fun WriteContent(
     paddingValues: PaddingValues,
     scrollState: ScrollState,
     pagerState: PagerState,
-    title:String?= null,
-    description:String?= null,
+    title:String,
+    description:String,
     onTitleChanged:(String)->Unit,
     onDescriptionChanged:(String)->Unit,
-    onResetButton:()-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -67,7 +66,7 @@ fun WriteContent(
             Spacer(modifier = Modifier.height(30.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = title?:"",
+                value = title,
                 onValueChange = onTitleChanged,
                 placeholder = { Text(text = "Title") },
                 colors = TextFieldDefaults.textFieldColors(
@@ -88,7 +87,7 @@ fun WriteContent(
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = description?:"",
+                value = description,
                 onValueChange = onDescriptionChanged,
                 placeholder = { Text(text = "Tell me about it") },
                 colors = TextFieldDefaults.textFieldColors(
@@ -113,7 +112,7 @@ fun WriteContent(
                     .fillMaxWidth()
                     .height(54.dp),
                 shape = MaterialTheme.shapes.small,
-                onClick = (onResetButton)) {
+                onClick = {}) {
                 Text(text = "Save")
             }
         }

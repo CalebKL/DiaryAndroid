@@ -14,32 +14,27 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.realm.kotlin.types.ObjectId
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.*
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 @Destination
 fun WriteScreen(
-    title: String? = null,
-    diaryId: String? = null,
-    description:String?= null,
+    id:String,
     navigator: DestinationsNavigator?,
     viewModel: WriteViewModel = viewModel(),
-    mood:String? = null
 ) {
-    val state = viewModel.moodState
+
+    val uiState = viewModel.uiState
     val pagerState = rememberPagerState()
     val scrollState = rememberScrollState()
     val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
-    viewModel.onGetDiaryDetails()
 
     Scaffold(
         topBar = {
             WriteTopBar(
                 onBackPressed = {
                     navigator?.popBackStack()
-                    viewModel.resetDiaryId()
                 },
                 selectedDiary =null,
                 onDeleteConfirmed = {},
@@ -47,24 +42,21 @@ fun WriteScreen(
             )
         },
         content = {
-            val moodState = viewModel.moodState.collectAsState()
-//            LaunchedEffect(key1 = Unit){
-//                viewModel.onGetDiaryDetails(diaryId = diaryId)
-//            }
-            LaunchedEffect(key1 = moodState) {
-                pagerState.scrollToPage(Mood.valueOf(moodState.value.name).ordinal)
+            LaunchedEffect(key1 = Unit) {
+                uiState.selectedDiaryId
             }
             WriteContent(
                 paddingValues = it,
                 scrollState = scrollState,
                 pagerState = pagerState,
-                title = title,
-                description = description,
-                onTitleChanged = {},
-                onDescriptionChanged = {},
-                onResetButton = {
-                    viewModel.resetDiaryId()
-                }
+                title = uiState.title,
+                description = uiState.description,
+                onTitleChanged = {title->
+                    viewModel.setTitle(title)
+                },
+                onDescriptionChanged = {desc->
+                    viewModel.setDescription(desc)
+                },
             )
         }
     )
