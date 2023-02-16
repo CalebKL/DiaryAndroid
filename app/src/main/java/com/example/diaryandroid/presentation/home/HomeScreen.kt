@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diaryandroid.R
+import com.example.diaryandroid.data.Diaries
 import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.presentation.common.NoMatchFound
 import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
@@ -21,7 +22,6 @@ import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
 import com.example.diaryandroid.presentation.home.components.HomeContent
 import com.example.diaryandroid.presentation.home.components.HomeTopBar
 import com.example.diaryandroid.presentation.home.components.NavigationDrawer
-import com.example.diaryandroid.presentation.write.WriteViewModel
 import com.example.diaryandroid.util.Constants.APP_ID
 import com.example.diaryandroid.util.GifImageLoader
 import com.example.diaryandroid.util.Resource
@@ -33,27 +33,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Destination
 @Composable
 fun HomeScreen(
-    navigator: DestinationsNavigator?,
-    viewModel: HomeViewModel = viewModel(),
-    writeViewModel: WriteViewModel = viewModel(),
+    diaries: Diaries,
+    drawerState: DrawerState,
+    onMenuClicked: () -> Unit,
+    onSignOutClicked: () -> Unit,
+    navigateToWrite: () -> Unit,
+    navigateToWriteWithArgs: (String) -> Unit
 ) {
     var padding by remember { mutableStateOf(PaddingValues()) }
-    val diaries by viewModel.diaries
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-    var signOutDialogOpened by remember { mutableStateOf(false) }
     val scrollBehaviour = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     LaunchedEffect(key1 = Unit){
         MongoDB.configureTheRealm()
     }
     NavigationDrawer(
        drawerState =drawerState,
-       onSignOutClicked = {
-           signOutDialogOpened = true
-       }
+       onSignOutClicked = onSignOutClicked
    ) {
        Scaffold(
            modifier = Modifier
@@ -63,18 +59,13 @@ fun HomeScreen(
            topBar = {
                HomeTopBar(
                    scrollBehavior = scrollBehaviour,
-                   onMenuClicked = {
-                       scope.launch {
-                           drawerState.open()
-                       }
-                   }
+                   onMenuClicked = onMenuClicked
                )
            },
            floatingActionButton = {
                FloatingActionButton(
                    modifier = Modifier.padding(end = padding.calculateEndPadding(LayoutDirection.Ltr)),
-                   onClick = {
-                   }
+                   onClick = navigateToWrite
                ) {
                    Icon(
                        imageVector = Icons.Default.Edit,
@@ -97,11 +88,7 @@ fun HomeScreen(
                        HomeContent(
                            paddingValues= padding,
                            diaryNotes =diaries.data!!,
-                           onClick = {
-                               val id =  diaries.data!!.values.first().first()._id
-                               writeViewModel.updateDiaryId(id)
-                               navigator?.navigate(WriteScreenDestination())
-                           }
+                           onClick =navigateToWriteWithArgs
                        )
                    }
                    is Resource.Error ->{
@@ -112,23 +99,5 @@ fun HomeScreen(
            }
        )
    }
-    DisplayAlertDialog(
-        title = "Sign Out",
-        message =" Are you sure you want to Sign Out from your Google account" ,
-        dialogOpened = signOutDialogOpened,
-        onDialogClosed = { signOutDialogOpened = false },
-        onYesClicked = {
-            scope.launch(Dispatchers.IO) {
-                val user = App.create(APP_ID).currentUser
-                if (user != null){
-                    user.logOut()
-                    withContext(Dispatchers.Main){
-                        navigator?.popBackStack()
-                        navigator?.navigate(AuthenticationScreenDestination)
-                    }
-                }
-            }
-        }
-    )
 }
 

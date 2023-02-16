@@ -5,7 +5,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import com.example.diaryandroid.presentation.write.components.WriteContent
@@ -16,47 +15,40 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.*
+import com.example.diaryandroid.model.Diary
+import com.google.accompanist.pager.PagerState
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
-@Destination
 fun WriteScreen(
-    id:String,
-    navigator: DestinationsNavigator?,
-    viewModel: WriteViewModel = viewModel(),
+    uiState: UiState,
+    pagerState: PagerState,
+    moodName: () -> String,
+    onTitleChanged: (String) -> Unit,
+    onDescriptionChanged: (String) -> Unit,
+    onDeleteConfirmed: () -> Unit,
+    onBackPressed: () -> Unit,
 ) {
-
-    val uiState = viewModel.uiState
-    val pagerState = rememberPagerState()
-    val scrollState = rememberScrollState()
-    val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
-
+    LaunchedEffect(key1 = uiState.diary!!.mood) {
+        pagerState.scrollToPage(Mood.valueOf(uiState.diary.mood).ordinal)
+    }
     Scaffold(
         topBar = {
             WriteTopBar(
-                onBackPressed = {
-                    navigator?.popBackStack()
-                },
-                selectedDiary =null,
-                onDeleteConfirmed = {},
-                moodName = {Mood.values()[pageNumber].name},
+                onBackPressed = onBackPressed,
+                selectedDiary = null,
+                onDeleteConfirmed = onDeleteConfirmed,
+                moodName = moodName,
             )
         },
         content = {
-            LaunchedEffect(key1 = Unit) {
-                uiState.selectedDiaryId
-            }
             WriteContent(
                 paddingValues = it,
-                scrollState = scrollState,
                 pagerState = pagerState,
-                title = uiState.title,
-                description = uiState.description,
-                onTitleChanged = {title->
-                    viewModel.setTitle(title)
-                },
-                onDescriptionChanged = {desc->
-                    viewModel.setDescription(desc)
-                },
+                title = uiState.diary.title,
+                description = uiState.diary.description,
+                onTitleChanged = onTitleChanged,
+                onDescriptionChanged = onDescriptionChanged
             )
         }
     )

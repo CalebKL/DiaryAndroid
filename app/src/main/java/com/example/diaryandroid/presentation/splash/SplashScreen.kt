@@ -20,7 +20,6 @@ import com.example.diaryandroid.util.Constants.APP_ID
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import io.realm.kotlin.mongodb.App
 
-@Destination(start = true)
 @Composable
 fun SplashScreen(
     navigator: DestinationsNavigator?
