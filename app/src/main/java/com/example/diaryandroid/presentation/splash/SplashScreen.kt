@@ -10,19 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.diaryandroid.util.LottieLoader
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
 import com.example.diaryandroid.R
-import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
-import com.example.diaryandroid.presentation.destinations.HomeScreenDestination
 import com.example.diaryandroid.util.Constants.APP_ID
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import io.realm.kotlin.mongodb.App
 
 @Composable
 fun SplashScreen(
-    navigator: DestinationsNavigator?
+    navigateToHome:()->Unit,
+    navigateToAuth:()->Unit
 ) {
     Box(
         modifier = Modifier
@@ -40,10 +36,9 @@ fun SplashScreen(
         LaunchedEffect(Unit) {
             delay(5000)
             animateLogo = false
-            navigator?.popBackStack()
             val user = App.Companion.create(APP_ID).currentUser
-            if (user != null && user.loggedIn) navigator?.navigate(HomeScreenDestination)
-            else navigator?.navigate(AuthenticationScreenDestination)
+            if (user != null && user.loggedIn) navigateToHome()
+            else navigateToAuth()
         }
     }
 }

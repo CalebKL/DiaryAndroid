@@ -56,13 +56,13 @@ object MongoDB: MongoRepository {
                     }
             }catch (e:Exception){
                 flow {
-                    emit(Resource.Error(message = e.localizedMessage?:"Exception thrown: Invalid"))
+                    emit(Resource.Error(e))
 
                 }
             }
         }else{
             flow {
-                emit(Resource.Error(message = "User is not Logged in"))
+                emit(Resource.Error(UserNotAuthenticatedException()))
             }
         }
     }
@@ -73,10 +73,10 @@ object MongoDB: MongoRepository {
                 val diary = realm.query<Diary>(query = "_id == $0", diaryId).find().first()
                 Resource.Success(data = diary)
             }catch (e:Exception){
-                Resource.Error(message = e.localizedMessage?:"Error Occurred")
+                Resource.Error(e)
             }
         }else{
-            Resource.Error(message = "User not Authenticated!")
+            Resource.Error(UserNotAuthenticatedException())
         }
     }
 
@@ -87,11 +87,13 @@ object MongoDB: MongoRepository {
                  val addedDiary = copyToRealm(diary.apply { ownerId = user.identity })
                  Resource.Success(data = addedDiary)
              }catch (e:Exception){
-                 Resource.Error(message = e.localizedMessage?:"Error Occurred")
+                 Resource.Error(e)
              }
          }
         }else{
-            Resource.Error(message = "User not Authenticated!")
+            Resource.Error(UserNotAuthenticatedException())
         }
     }
 }
+
+private class UserNotAuthenticatedException : Exception("User is not Logged in.")

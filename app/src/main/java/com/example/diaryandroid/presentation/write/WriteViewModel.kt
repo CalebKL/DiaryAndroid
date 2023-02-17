@@ -1,61 +1,81 @@
 package com.example.diaryandroid.presentation.write
 
 import Mood
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.model.Diary
+import com.example.diaryandroid.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.example.diaryandroid.util.Resource
 import io.realm.kotlin.types.ObjectId
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class WriteViewModel:ViewModel() {
+class WriteViewModel(
+    private val savedStateHandle: SavedStateHandle
+):ViewModel() {
 
-    private val _state: MutableStateFlow<UiState> = MutableStateFlow(UiState())
-    var state: StateFlow<UiState> = _state.asStateFlow()
+    var uiState by mutableStateOf(UiState())
         private set
 
-
-    fun fetchSelectedDiary(id: String) {
-        when(val result = MongoDB.getSelectedDiary(diaryId = ObjectId.Companion.from(id))){
-            is Resource.Success ->{
-                _state.value = UiState(diary =  result.data)
-                setMood(Mood.valueOf(result.data!!.mood))
-                setTitle(result.data.title)
-                setDescription(result.data.description)
-            }
-            is Resource.Loading ->{
-                _state.value = UiState(isLoading = true)
-            }
-            is Resource.Error ->{
-                _state.value = UiState(error = result.message!!)
+    init {
+        getDiaryIdArgument()
+        fetchSelectedDiary()
+    }
+    private fun getDiaryIdArgument() {
+        uiState = uiState.copy(
+            selectedDiaryId = savedStateHandle.get<String>(
+                key = WRITE_SCREEN_ARGUMENT_KEY
+            )
+        )
+    }
+    private fun fetchSelectedDiary() {
+        if (uiState.selectedDiaryId != null){
+            viewModelScope.launch(Dispatchers.Main){
+                val diary = MongoDB.getSelectedDiary(
+                    diaryId = ObjectId.Companion.from(uiState.selectedDiaryId!!)
+                )
+                if (diary is Resource.Success){
+                    setSelectedDiary(diary.data)
+                    setTitle(diary.data.title)
+                    setDescription(diary.data.description)
+                    setMood(mood = Mood.valueOf(diary.data.mood))
+                }
             }
         }
     }
 
+    private fun setSelectedDiary(diary: Diary) {
+        uiState = uiState.copy(selectedDiary = diary)
+    }
+
     fun setTitle(title: String) {
-        _state.value = UiState(diary = Diary().apply {
-            this.title = title
-        })
+        uiState = uiState.copy(title = title)
     }
 
     fun setDescription(description: String) {
-        _state.value = UiState(diary = Diary().apply {
-            this.description = description
-        })
+        uiState = uiState.copy(description = description)
     }
 
     private fun setMood(mood: Mood) {
-        _state.value = UiState(diary = Diary().apply {
-            this.mood = Mood.valueOf(mood.name).toString()
-        })
+        uiState = uiState.copy(mood = mood)
     }
 
 
 }
 data class UiState(
-    val isLoading: Boolean = false,
-    val diary: Diary? = null,
-    val error: String = ""
+    val selectedDiaryId: String? = null,
+    val selectedDiary: Diary? = null,
+    val title: String = "",
+    val description: String = "",
+    val mood: Mood = Mood.Neutral,
+
 )

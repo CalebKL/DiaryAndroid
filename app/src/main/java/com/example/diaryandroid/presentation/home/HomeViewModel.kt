@@ -10,7 +10,7 @@ import com.example.diaryandroid.util.Resource
 import kotlinx.coroutines.launch
 
 class HomeViewModel:ViewModel() {
-    var diaries: MutableState<Diaries> = mutableStateOf(Resource.Loading())
+    var diaries: MutableState<Diaries> = mutableStateOf(Resource.Idle)
     init {
         observeAllDiaries()
     }

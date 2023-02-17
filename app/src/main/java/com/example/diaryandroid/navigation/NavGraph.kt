@@ -1,9 +1,9 @@
 package com.example.diaryandroid.navigation
 
 
+import Mood
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -16,6 +16,7 @@ import com.example.diaryandroid.presentation.auth.AuthenticationViewModel
 import com.example.diaryandroid.presentation.home.HomeScreen
 import com.example.diaryandroid.presentation.home.HomeViewModel
 import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
+import com.example.diaryandroid.presentation.splash.SplashScreen
 import com.example.diaryandroid.presentation.write.WriteScreen
 import com.example.diaryandroid.presentation.write.WriteViewModel
 import com.example.diaryandroid.util.Constants.APP_ID
@@ -38,6 +39,17 @@ fun SetupNavGraph(
         startDestination = startDestination,
         navController = navController
     ) {
+        splashRoute(
+            navigateToHome = {
+                navController.popBackStack()
+                navController.navigate(Screen.Home.route)
+            },
+            navigateToAuth = {
+                navController.popBackStack()
+                navController.navigate(Screen.Authentication.route)
+
+            }
+        )
         authenticationRoute(
             navigateToHome = {
                 navController.popBackStack()
@@ -64,6 +76,17 @@ fun SetupNavGraph(
     }
 }
 
+fun NavGraphBuilder.splashRoute(
+    navigateToHome: () -> Unit,
+    navigateToAuth:()->Unit
+) {
+    composable(route = Screen.Splash.route) {
+        SplashScreen(
+            navigateToHome = navigateToHome,
+            navigateToAuth = navigateToAuth
+        )
+    }
+}
 fun NavGraphBuilder.authenticationRoute(
     navigateToHome: () -> Unit,
 ) {
@@ -117,7 +140,6 @@ fun NavGraphBuilder.homeRoute(
         val diaries by viewModel.diaries
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val context = LocalContext.current
         var signOutDialogOpened by remember { mutableStateOf(false) }
         var deleteAllDialogOpened by remember { mutableStateOf(false) }
 
@@ -175,7 +197,7 @@ fun NavGraphBuilder.writeRoute(navigateBack: () -> Unit) {
         })
     ) {
         val viewModel: WriteViewModel = viewModel()
-        val uiState = viewModel.state.collectAsState()
+        val uiState = viewModel.uiState
         val pagerState = rememberPagerState()
         val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
 

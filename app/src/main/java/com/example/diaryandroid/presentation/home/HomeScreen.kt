@@ -11,26 +11,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diaryandroid.R
 import com.example.diaryandroid.data.Diaries
 import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.presentation.common.NoMatchFound
-import com.example.diaryandroid.presentation.destinations.AuthenticationScreenDestination
-import com.example.diaryandroid.presentation.destinations.WriteScreenDestination
-import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
 import com.example.diaryandroid.presentation.home.components.HomeContent
 import com.example.diaryandroid.presentation.home.components.HomeTopBar
 import com.example.diaryandroid.presentation.home.components.NavigationDrawer
-import com.example.diaryandroid.util.Constants.APP_ID
 import com.example.diaryandroid.util.GifImageLoader
 import com.example.diaryandroid.util.Resource
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.realm.kotlin.mongodb.App
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,14 +76,14 @@ fun HomeScreen(
                    is Resource.Success ->{
                        HomeContent(
                            paddingValues= padding,
-                           diaryNotes =diaries.data!!,
+                           diaryNotes =diaries.data,
                            onClick =navigateToWriteWithArgs
                        )
                    }
                    is Resource.Error ->{
                        NoMatchFound(lottie = R.raw.no_match_found_dark)
 
-                   }
+                   }else->{}
                }
            }
        )
