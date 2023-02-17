@@ -68,6 +68,24 @@ class WriteViewModel(
     private fun setMood(mood: Mood) {
         uiState = uiState.copy(mood = mood)
     }
+    fun insertDiary(
+        diary: Diary,
+        onSuccess:()->Unit,
+        onError:(String)->Unit
+    ){
+        viewModelScope.launch (Dispatchers.IO){
+            val result = MongoDB.addNewDiary(diary = diary)
+            if (result is Resource.Success){
+                withContext(Dispatchers.Main){
+                    onSuccess()
+                }
+            }else if (result is Resource.Error){
+                withContext(Dispatchers.Main){
+                    onError(result.error.message.toString())
+                }
+            }
+        }
+    }
 
 
 }

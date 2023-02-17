@@ -1,6 +1,7 @@
 package com.example.diaryandroid.presentation.write.components
 
 import Mood
+import android.widget.Toast
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -30,14 +31,17 @@ import com.google.accompanist.pager.rememberPagerState
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WriteContent(
+    uiState: UiState,
     pagerState: PagerState,
     title: String,
     onTitleChanged: (String) -> Unit,
     description: String,
     onDescriptionChanged: (String) -> Unit,
     paddingValues: PaddingValues,
+    onSaveClicked:(Diary)->Unit
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,7 +119,20 @@ fun WriteContent(
                     .fillMaxWidth()
                     .height(54.dp),
                 shape = MaterialTheme.shapes.small,
-                onClick = {}) {
+                onClick = {
+                    if (uiState.title.isNotEmpty() && uiState.description.isNotEmpty()){
+                        onSaveClicked(Diary().apply{
+                            this.title = uiState.title
+                            this.description = uiState.description
+                        })
+                    }else{
+                        Toast.makeText(
+                            context,
+                            "Fields cannot be blank",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }) {
                 Text(text = "Save")
             }
         }
