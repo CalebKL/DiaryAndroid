@@ -27,7 +27,7 @@ fun WriteScreen(
         topBar = {
             WriteTopBar(
                 onBackPressed = onBackPressed,
-                selectedDiary = null,
+                selectedDiary = uiState.selectedDiary,
                 onDeleteConfirmed = onDeleteConfirmed,
                 moodName = moodName,
             )

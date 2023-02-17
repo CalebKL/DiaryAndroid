@@ -33,6 +33,7 @@ fun WriteTopBar(
 ) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var currentTime by remember { mutableStateOf(LocalTime.now()) }
+
     val formattedDate = remember(key1 = currentDate) {
         DateTimeFormatter
             .ofPattern("dd MMM yyyy")
@@ -43,6 +44,7 @@ fun WriteTopBar(
             .ofPattern("hh:mm a")
             .format(currentTime).uppercase()
     }
+    var dateTimeUpdated by remember { mutableStateOf(false) }
     val selectedDiaryDateTime = remember(selectedDiary) {
         if (selectedDiary != null) {
             SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
@@ -71,7 +73,9 @@ fun WriteTopBar(
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = if (selectedDiary != null)selectedDiaryDateTime else "$formattedDate, $formattedTime",
+                    text = if (selectedDiary != null && dateTimeUpdated) "$formattedDate, $formattedTime"
+                    else if (selectedDiary != null) selectedDiaryDateTime
+                    else "$formattedDate, $formattedTime",
                     style = TextStyle(
                         fontSize = MaterialTheme.typography.bodySmall.fontSize
                     ),
