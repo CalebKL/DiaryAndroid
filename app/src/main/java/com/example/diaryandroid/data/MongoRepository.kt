@@ -11,6 +11,6 @@ typealias Diaries = Resource<Map<LocalDate, List<Diary>>>
 interface MongoRepository {
     fun configureTheRealm()
     fun getAllDiaries():Flow<Diaries>
-    fun getSelectedDiary(diaryId: ObjectId): Resource<Diary>
-    suspend fun addNewDiary(diary: Diary): Resource<Diary>
+    fun getSelectedDiary(diaryId: ObjectId): Flow<Resource<Diary>>
+    suspend fun insertDiary(diary: Diary): Resource<Diary>
 }

@@ -13,9 +13,6 @@ import com.example.diaryandroid.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.example.diaryandroid.util.Resource
 import io.realm.kotlin.types.ObjectId
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -40,14 +37,15 @@ class WriteViewModel(
     private fun fetchSelectedDiary() {
         if (uiState.selectedDiaryId != null){
             viewModelScope.launch(Dispatchers.Main){
-                val diary = MongoDB.getSelectedDiary(
+                MongoDB.getSelectedDiary(
                     diaryId = ObjectId.Companion.from(uiState.selectedDiaryId!!)
-                )
-                if (diary is Resource.Success){
-                    setSelectedDiary(diary.data)
-                    setTitle(diary.data.title)
-                    setDescription(diary.data.description)
-                    setMood(mood = Mood.valueOf(diary.data.mood))
+                ).collect{diary->
+                    if (diary is Resource.Success){
+                        setSelectedDiary(diary.data)
+                        setTitle(diary.data.title)
+                        setDescription(diary.data.description)
+                        setMood(mood = Mood.valueOf(diary.data.mood))
+                    }
                 }
             }
         }
@@ -74,7 +72,7 @@ class WriteViewModel(
         onError:(String)->Unit
     ){
         viewModelScope.launch (Dispatchers.IO){
-            val result = MongoDB.addNewDiary(diary = diary)
+            val result = MongoDB.insertDiary(diary = diary)
             if (result is Resource.Success){
                 withContext(Dispatchers.Main){
                     onSuccess()

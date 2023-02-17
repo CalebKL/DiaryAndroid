@@ -67,20 +67,21 @@ object MongoDB: MongoRepository {
         }
     }
 
-    override fun getSelectedDiary(diaryId: ObjectId): Resource<Diary> {
-       return if (user != null){
+    override fun getSelectedDiary(diaryId: ObjectId): Flow<Resource<Diary>> {
+        return if (user != null){
             try {
-                val diary = realm.query<Diary>(query = "_id == $0", diaryId).find().first()
-                Resource.Success(data = diary)
+                realm.query<Diary>(query = "_id == $0", diaryId).asFlow().map {
+                    Resource.Success(data = it.list.first())
+                }
             }catch (e:Exception){
-                Resource.Error(e)
+                flow { emit(Resource.Error(e)) }
             }
         }else{
-            Resource.Error(UserNotAuthenticatedException())
+           flow { emit(Resource.Error(UserNotAuthenticatedException())) }
         }
     }
 
-    override suspend fun addNewDiary(diary: Diary): Resource<Diary> {
+    override suspend fun insertDiary(diary: Diary): Resource<Diary> {
         return if (user != null){
          realm.write {
              try {
