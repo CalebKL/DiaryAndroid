@@ -13,4 +13,5 @@
     <string name="no">No</string>
     <string name="arrow_back">Arrow Back</string>
     <string name="mood_image">Mood Image</string>
+    <string name="close_icon">Close Icon</string>
 </resources>

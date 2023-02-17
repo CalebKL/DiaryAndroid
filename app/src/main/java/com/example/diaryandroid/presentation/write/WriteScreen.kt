@@ -9,6 +9,7 @@ import com.example.diaryandroid.presentation.write.components.WriteContent
 import com.example.diaryandroid.presentation.write.components.WriteTopBar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
@@ -20,8 +21,9 @@ fun WriteScreen(
     onDescriptionChanged: (String) -> Unit,
     onDeleteConfirmed: () -> Unit,
     onBackPressed: () -> Unit,
-    onSaveClicked:(Diary)->Unit
-) {
+    onSaveClicked:(Diary)->Unit,
+    onDateTimeUpdated:(ZonedDateTime)->Unit,
+    ) {
     LaunchedEffect(key1 = uiState.mood) {
         pagerState.scrollToPage(Mood.valueOf(uiState.mood.name).ordinal)
     }
@@ -32,6 +34,7 @@ fun WriteScreen(
                 selectedDiary = uiState.selectedDiary,
                 onDeleteConfirmed = onDeleteConfirmed,
                 moodName = moodName,
+                onDateTimeUpdated = onDateTimeUpdated
             )
         },
         content = {

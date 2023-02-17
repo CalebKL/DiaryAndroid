@@ -218,6 +218,9 @@ fun NavGraphBuilder.writeRoute(navigateBack: () -> Unit) {
                         Timber.d("error $error")
                     }
                 )
+            },
+            onDateTimeUpdated = {zonedDateTime ->
+                viewModel.updateDateTime(zonedDateTime = zonedDateTime)
             }
         )
     }

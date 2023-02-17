@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
@@ -17,9 +18,17 @@ import com.example.diaryandroid.R
 import com.example.diaryandroid.model.Diary
 import com.example.diaryandroid.presentation.home.components.DisplayAlertDialog
 import com.example.diaryandroid.util.toInstant
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.clock.ClockDialog
+import com.maxkeppeler.sheets.clock.models.ClockSelection
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -27,10 +36,14 @@ import java.util.*
 @Composable
 fun WriteTopBar(
     selectedDiary: Diary?,
+    onDateTimeUpdated:(ZonedDateTime)->Unit,
     onDeleteConfirmed: () -> Unit,
     onBackPressed:()->Unit,
     moodName:()->String,
 ) {
+    val dateDialog = rememberSheetState()
+    val timeDialog = rememberSheetState()
+
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var currentTime by remember { mutableStateOf(LocalTime.now()) }
 
@@ -44,6 +57,8 @@ fun WriteTopBar(
             .ofPattern("hh:mm a")
             .format(currentTime).uppercase()
     }
+    val dateTime by remember { mutableStateOf(false) }
+
     var dateTimeUpdated by remember { mutableStateOf(false) }
     val selectedDiaryDateTime = remember(selectedDiary) {
         if (selectedDiary != null) {
@@ -85,12 +100,28 @@ fun WriteTopBar(
             }
         },
         actions = {
-            IconButton(onClick =  {}) {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = stringResource(id = R.string.date_range),
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
+            if (dateTimeUpdated){
+                IconButton(onClick =  {
+                    currentDate = LocalDate.now()
+                    currentTime = LocalTime.now()
+                    dateTimeUpdated = false
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = stringResource(R.string.close_icon),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }else{
+                IconButton(onClick =  {
+                    dateDialog.show()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = stringResource(id = R.string.date_range),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
             if (selectedDiary != null){
                 DeleteDiaryAction(
@@ -98,6 +129,31 @@ fun WriteTopBar(
                     onDeleteConfirmed = onDeleteConfirmed
                 )
             }
+        }
+    )
+    CalendarDialog(
+        state =dateDialog,
+        selection = CalendarSelection.Date{localDate->
+            currentDate = localDate
+            timeDialog.show()
+        },
+        config = CalendarConfig(
+            monthSelection = true,
+            yearSelection = true
+        )
+    )
+    ClockDialog(
+        state =timeDialog,
+        selection = ClockSelection.HoursMinutes{ hours, minutes ->
+            currentTime = LocalTime.of(hours, minutes)
+            dateTimeUpdated = true
+            onDateTimeUpdated(
+                ZonedDateTime.of(
+                    currentDate,
+                    currentTime,
+                    ZoneId.systemDefault()
+                )
+            )
         }
     )
 }
