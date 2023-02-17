@@ -66,21 +66,52 @@ class WriteViewModel(
     private fun setMood(mood: Mood) {
         uiState = uiState.copy(mood = mood)
     }
-    fun insertDiary(
+
+    fun upsertDiary(
         diary: Diary,
         onSuccess:()->Unit,
         onError:(String)->Unit
     ){
-        viewModelScope.launch (Dispatchers.IO){
-            val result = MongoDB.insertDiary(diary = diary)
-            if (result is Resource.Success){
-                withContext(Dispatchers.Main){
-                    onSuccess()
-                }
-            }else if (result is Resource.Error){
-                withContext(Dispatchers.Main){
-                    onError(result.error.message.toString())
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            if (uiState.selectedDiaryId != null){
+                updateDiary(diary = diary, onSuccess = onSuccess, onError = onError)
+            }else{
+                insertDiary(diary = diary, onSuccess = onSuccess, onError = onError)
+            }
+        }
+    }
+    private suspend fun insertDiary(
+        diary: Diary,
+        onSuccess:()->Unit,
+        onError:(String)->Unit
+    ){ val result = MongoDB.insertDiary(diary = diary)
+        if (result is Resource.Success){
+            withContext(Dispatchers.Main){
+                onSuccess()
+            }
+        }else if (result is Resource.Error){
+            withContext(Dispatchers.Main){
+                onError(result.error.message.toString())
+            }
+        }
+    }
+
+    private suspend fun updateDiary(
+        diary: Diary,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ){
+        val result = MongoDB.updateDiary(diary= diary.apply {
+            _id = ObjectId.Companion.from(uiState.selectedDiaryId!!)
+            date= uiState.selectedDiary!!.date
+        })
+        if (result is Resource.Success){
+            withContext(Dispatchers.Main){
+                onSuccess()
+            }
+        }else if (result is Resource.Error){
+            withContext(Dispatchers.Main){
+                onError(result.error.message.toString())
             }
         }
     }

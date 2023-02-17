@@ -29,6 +29,7 @@ import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 @Composable
 fun SetupNavGraph(
@@ -210,11 +211,12 @@ fun NavGraphBuilder.writeRoute(navigateBack: () -> Unit) {
             onBackPressed = navigateBack,
             onDeleteConfirmed = {},
             onSaveClicked = {
-                viewModel.insertDiary(
+                viewModel.upsertDiary(
                     diary = it.apply { mood = Mood.values()[pageNumber].name},
                     onSuccess = navigateBack,
-                    onError = {}
-
+                    onError = {error->
+                        Timber.d("error $error")
+                    }
                 )
             }
         )
