@@ -45,8 +45,9 @@ fun WriteContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .imePadding()
+            .navigationBarsPadding()
             .padding(top = paddingValues.calculateTopPadding())
-            .padding(bottom = paddingValues.calculateBottomPadding())
             .padding(bottom = 24.dp)
             .padding(horizontal = 24.dp),
         verticalArrangement = Arrangement.SpaceBetween

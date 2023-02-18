@@ -15,6 +15,7 @@
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/app_name"
             android:theme="@style/Theme.DiaryAndroid">
             <intent-filter>
