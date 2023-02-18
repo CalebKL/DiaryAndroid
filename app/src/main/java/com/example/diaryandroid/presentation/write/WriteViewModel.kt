@@ -16,6 +16,7 @@ import io.realm.kotlin.types.ObjectId
 import io.realm.kotlin.types.RealmInstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
@@ -42,8 +43,11 @@ class WriteViewModel(
         if (uiState.selectedDiaryId != null){
             viewModelScope.launch(Dispatchers.Main){
                 MongoDB.getSelectedDiary(
-                    diaryId = ObjectId.Companion.from(uiState.selectedDiaryId!!)
-                ).collect{diary->
+                    diaryId = ObjectId.Companion.from(uiState.selectedDiaryId!!))
+                    .catch {
+                        emit(Resource.Error(Exception("Diary is already Deleted")))
+                    }
+                    .collect{diary->
                     if (diary is Resource.Success){
                         setSelectedDiary(diary.data)
                         setTitle(diary.data.title)
@@ -131,8 +135,25 @@ class WriteViewModel(
             }
         }
     }
-
-
+    fun deleteDiary(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ){
+        viewModelScope.launch(Dispatchers.IO){
+            if (uiState.selectedDiary != null){
+                val result = MongoDB.deleteDiary(id = ObjectId.from(uiState.selectedDiaryId!!))
+                if (result is Resource.Success){
+                    withContext(Dispatchers.Main){
+                        onSuccess()
+                    }
+                }else if (result is Resource.Error){
+                    withContext(Dispatchers.Main){
+                        onError(result.error.toString())
+                    }
+                }
+            }
+        }
+    }
 }
 data class UiState(
     val selectedDiaryId: String? = null,
