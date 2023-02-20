@@ -5,7 +5,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.diaryandroid.data.database.entity.ImageToUpload
 
-interface ImagesToUploadDao {
+interface ImageToUploadDao {
     @Query("SELECT * FROM image_to_upload_table ORDER BY id ASC")
     suspend fun getAllImages(): List<ImageToUpload>
 
