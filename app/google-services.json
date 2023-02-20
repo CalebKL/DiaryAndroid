@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "851616138466",
+    "project_id": "diaryandroid",
+    "storage_bucket": "diaryandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851616138466:android:32ae9ddb42ea2a6c884abb",
+        "android_client_info": {
+          "package_name": "com.example.diaryandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "851616138466-39v1fc65b3bfakosnhahvmreg26f8tu7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgq0A8oMLZKMRPQML_CKUHCa8litpXJdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851616138466-39v1fc65b3bfakosnhahvmreg26f8tu7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
