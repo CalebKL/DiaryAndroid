@@ -1,6 +1,7 @@
 package com.example.diaryandroid.presentation.write.components
 
 import Mood
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.diaryandroid.R
 import com.example.diaryandroid.model.Diary
+import com.example.diaryandroid.model.GalleryState
+import com.example.diaryandroid.presentation.home.components.GalleryUploader
 import com.example.diaryandroid.presentation.write.UiState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -34,6 +37,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WriteContent(
+    galleryState:GalleryState,
     uiState: UiState,
     pagerState: PagerState,
     title: String,
@@ -41,7 +45,8 @@ fun WriteContent(
     description: String,
     onDescriptionChanged: (String) -> Unit,
     paddingValues: PaddingValues,
-    onSaveClicked:(Diary)->Unit
+    onSaveClicked:(Diary)->Unit,
+    onImageSelect:(Uri)->Unit
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -130,6 +135,14 @@ fun WriteContent(
         }
         Column(verticalArrangement = Arrangement.Bottom) {
             Spacer(modifier = Modifier.height(12.dp))
+            GalleryUploader(
+                galleryState = galleryState,
+                onAddClicked = { },
+                onImageSelected = onImageSelect,
+                onImageClicked = {}
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
             Button(
                 modifier = Modifier
                     .fillMaxWidth()

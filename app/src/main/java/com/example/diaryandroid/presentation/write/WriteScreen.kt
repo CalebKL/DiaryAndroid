@@ -1,10 +1,12 @@
 package com.example.diaryandroid.presentation.write
 
+import android.net.Uri
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.example.diaryandroid.model.Diary
+import com.example.diaryandroid.model.GalleryState
 import com.example.diaryandroid.presentation.write.components.WriteContent
 import com.example.diaryandroid.presentation.write.components.WriteTopBar
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -22,8 +24,11 @@ fun WriteScreen(
     onDeleteConfirmed: () -> Unit,
     onBackPressed: () -> Unit,
     onSaveClicked:(Diary)->Unit,
+    galleryState: GalleryState,
     onDateTimeUpdated:(ZonedDateTime)->Unit,
-    ) {
+    onImageSelect:(Uri)->Unit
+
+) {
     LaunchedEffect(key1 = uiState.mood) {
         pagerState.scrollToPage(Mood.valueOf(uiState.mood.name).ordinal)
     }
@@ -39,6 +44,7 @@ fun WriteScreen(
         },
         content = {
             WriteContent(
+                galleryState = galleryState,
                 uiState = uiState,
                 paddingValues = it,
                 pagerState = pagerState,
@@ -46,7 +52,8 @@ fun WriteScreen(
                 description = uiState.description,
                 onTitleChanged = onTitleChanged,
                 onDescriptionChanged = onDescriptionChanged,
-                onSaveClicked = onSaveClicked
+                onSaveClicked = onSaveClicked,
+                onImageSelect = onImageSelect
             )
         }
     )

@@ -13,6 +13,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.diaryandroid.model.GalleryImage
+import com.example.diaryandroid.model.rememberGalleryState
 import com.example.diaryandroid.presentation.auth.AuthenticationScreen
 import com.example.diaryandroid.presentation.auth.AuthenticationViewModel
 import com.example.diaryandroid.presentation.home.HomeScreen
@@ -202,10 +204,12 @@ fun NavGraphBuilder.writeRoute(navigateBack: () -> Unit) {
         val viewModel: WriteViewModel = viewModel()
         val uiState = viewModel.uiState
         val context = LocalContext.current
+        val galleryState = rememberGalleryState()
         val pagerState = rememberPagerState()
         val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
 
         WriteScreen(
+            galleryState = galleryState,
             uiState = uiState,
             pagerState = pagerState,
             moodName = { Mood.values()[pageNumber].name },
@@ -246,6 +250,14 @@ fun NavGraphBuilder.writeRoute(navigateBack: () -> Unit) {
             },
             onDateTimeUpdated = {zonedDateTime ->
                 viewModel.updateDateTime(zonedDateTime = zonedDateTime)
+            },
+            onImageSelect = {
+                galleryState.addImage(
+                    galleryImage = GalleryImage(
+                        image = it,
+                        remoteImagePath = ""
+                    )
+                )
             }
         )
     }
