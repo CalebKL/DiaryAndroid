@@ -52,12 +52,12 @@ fun AuthenticationScreen(
         state = oneTapState,
         clientId =CLIENT_ID ,
         onTokenIdReceived = { tokenId ->
-            val credentials = GoogleAuthProvider.getCredential(tokenId, null)
-            FirebaseAuth.getInstance().signInWithCredential(credentials)
-                .addOnCompleteListener{task->
-                    if (task.isSuccessful){
+            val credential = GoogleAuthProvider.getCredential(tokenId, null)
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful) {
                         onSuccessfulFirebaseSignIn(tokenId)
-                    }else{
+                    } else {
                         task.exception?.let { it -> onFailedFirebaseSignIn(it) }
                     }
                 }

@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:851616138466:android:32ae9ddb42ea2a6c884abb",
+        "mobilesdk_app_id": "1:851616138466:android:7ae03b4571ef2b39884abb",
         "android_client_info": {
           "package_name": "com.example.diaryandroid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "851616138466-39v1fc65b3bfakosnhahvmreg26f8tu7.apps.googleusercontent.com",
+          "client_id": "851616138466-vuufob9fbi8rh396f0oesf5l4i5n7leh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

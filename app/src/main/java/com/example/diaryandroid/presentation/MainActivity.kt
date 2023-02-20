@@ -5,13 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
-import com.example.diaryandroid.data.MongoDB
 import com.example.diaryandroid.navigation.Screen
 import com.example.diaryandroid.navigation.SetupNavGraph
 import com.example.diaryandroid.presentation.ui.theme.DiaryAndroidTheme
 import com.google.firebase.FirebaseApp
-import com.google.firebase.ktx.Firebase
-import com.ramcosta.composedestinations.DestinationsNavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
