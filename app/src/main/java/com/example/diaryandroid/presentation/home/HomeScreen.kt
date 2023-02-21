@@ -20,6 +20,7 @@ import com.example.diaryandroid.presentation.home.components.HomeTopBar
 import com.example.diaryandroid.presentation.home.components.NavigationDrawer
 import com.example.diaryandroid.util.GifImageLoader
 import com.example.diaryandroid.util.Resource
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +31,10 @@ fun HomeScreen(
     onSignOutClicked: () -> Unit,
     navigateToWrite: () -> Unit,
     navigateToWriteWithArgs: (String) -> Unit,
-    onDeleteAllClicked:()->Unit
+    onDeleteAllClicked:()->Unit,
+    dateIsSelected:Boolean,
+    onDateSelected:(ZonedDateTime)-> Unit,
+    onDateReset:()->Unit
 ) {
     var padding by remember { mutableStateOf(PaddingValues()) }
     val scrollBehaviour = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -50,7 +54,10 @@ fun HomeScreen(
            topBar = {
                HomeTopBar(
                    scrollBehavior = scrollBehaviour,
-                   onMenuClicked = onMenuClicked
+                   onMenuClicked = onMenuClicked,
+                   dateIsSelected = dateIsSelected,
+                   onDateSelected= onDateSelected,
+                   onDateReset = onDateReset
                )
            },
            floatingActionButton = {
