@@ -261,7 +261,8 @@ fun NavGraphBuilder.writeRoute(navigateBack: () -> Unit) {
                     image = it,
                     imageType =type
                 )
-            }
+            },
+            onImageDeleteClicked = {}
         )
     }
 }
