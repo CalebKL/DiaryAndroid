@@ -2,9 +2,10 @@ package com.example.diaryandroid.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.diaryandroid.data.database.entity.ImageToUpload
 
 @Database(
-    entities = [ImageToUploadDao::class],
+    entities = [ImageToUpload::class],
     version = 1,
     exportSchema = false
 )

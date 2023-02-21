@@ -12,11 +12,13 @@ import com.example.diaryandroid.navigation.SetupNavGraph
 import com.example.diaryandroid.presentation.ui.theme.DiaryAndroidTheme
 import com.example.diaryandroid.util.retryUploadingImageToFirebase
 import com.google.firebase.FirebaseApp
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @Inject

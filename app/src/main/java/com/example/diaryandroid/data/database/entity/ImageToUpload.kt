@@ -8,7 +8,7 @@ import com.example.diaryandroid.util.Constants.IMAGES_TO_UPLOAD_TABLE
 data class ImageToUpload(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val remoteImagePath:String,
-    val imageUri:String,
-    val sessionUri:String
+    val remoteImagePath: String,
+    val imageUri: String,
+    val sessionUri: String
 )
