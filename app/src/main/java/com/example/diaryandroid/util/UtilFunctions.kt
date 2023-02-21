@@ -3,6 +3,7 @@ package com.example.diaryandroid.util
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
+import com.example.diaryandroid.data.database.entity.ImageToDelete
 import com.example.diaryandroid.data.database.entity.ImageToUpload
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storageMetadata
@@ -32,6 +33,15 @@ fun fetchImagesFromFirebase(
         }
     }
 }
+fun retryDeletingImageFromFirebase(
+    imageToDelete: ImageToDelete,
+    onSuccess: () -> Unit
+) {
+    val storage = FirebaseStorage.getInstance().reference
+    storage.child(imageToDelete.remoteImagePath).delete()
+        .addOnSuccessListener { onSuccess() }
+}
+
 fun retryUploadingImageToFirebase(
     imageToUpload: ImageToUpload,
     onSuccess: () -> Unit
