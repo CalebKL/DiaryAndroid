@@ -29,7 +29,8 @@ fun HomeScreen(
     onMenuClicked: () -> Unit,
     onSignOutClicked: () -> Unit,
     navigateToWrite: () -> Unit,
-    navigateToWriteWithArgs: (String) -> Unit
+    navigateToWriteWithArgs: (String) -> Unit,
+    onDeleteAllClicked:()->Unit
 ) {
     var padding by remember { mutableStateOf(PaddingValues()) }
     val scrollBehaviour = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -37,8 +38,9 @@ fun HomeScreen(
         MongoDB.configureTheRealm()
     }
     NavigationDrawer(
-       drawerState =drawerState,
-       onSignOutClicked = onSignOutClicked
+        drawerState =drawerState,
+        onSignOutClicked = onSignOutClicked,
+        onDeleteAllClicked = onDeleteAllClicked
    ) {
        Scaffold(
            modifier = Modifier

@@ -21,4 +21,10 @@ class HomeViewModel:ViewModel() {
            }
        }
     }
+    fun deleteAllDiaries(
+        onSuccess:()->Unit,
+        onError:(Throwable)->Unit
+    ){
+
+    }
 }

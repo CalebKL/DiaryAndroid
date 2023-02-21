@@ -2,6 +2,8 @@ package com.example.diaryandroid.presentation.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +17,7 @@ import com.example.diaryandroid.R
 fun NavigationDrawer(
     drawerState: DrawerState,
     onSignOutClicked:()->Unit,
+    onDeleteAllClicked:()->Unit,
     content:@Composable ()->Unit
 ) {
     ModalNavigationDrawer(
@@ -49,6 +52,23 @@ fun NavigationDrawer(
                         },
                         selected =false,
                         onClick = onSignOutClicked
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Row(modifier = Modifier.padding(horizontal = 12.dp)){
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = stringResource(R.string.delete_icon)
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
+                                Text(
+                                    text = stringResource(R.string.delete_all_diaries),
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        },
+                        selected =false,
+                        onClick = onDeleteAllClicked
                     )
                 }
             )

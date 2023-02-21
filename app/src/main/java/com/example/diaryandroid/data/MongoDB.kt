@@ -114,21 +114,37 @@ object MongoDB: MongoRepository {
             Resource.Error(UserNotAuthenticatedException())
         }
     }
-
-    override suspend fun deleteDiary(id: ObjectId): Resource<Diary> {
-        return if (user != null){
+    override suspend fun deleteDiary(id: ObjectId): Resource<Boolean> {
+        return if (user != null) {
             realm.write {
                 val diary =
-                    query<Diary>(query = "_id == $0 AND ownerId == $1", id, user.identity).first().find()
-                if (diary !=null){
+                    query<Diary>(query = "_id == $0 AND ownerId == $1", id, user.identity)
+                        .first().find()
+                if (diary != null) {
                     try {
                         delete(diary)
-                        Resource.Success(data = diary)
-                    }catch (e:Exception){
+                        Resource.Success(data = true)
+                    } catch (e: Exception) {
                         Resource.Error(e)
                     }
-                }else{
-                    Resource.Error(Exception("Diary does not exist"))
+                } else {
+                    Resource.Error(Exception("Diary does not exist."))
+                }
+            }
+        } else {
+            Resource.Error(UserNotAuthenticatedException())
+        }
+    }
+
+    override suspend fun deleteAllDiaries(): Resource<Boolean> {
+        return if (user != null){
+            realm.write {
+                val diaries = this.query<Diary>("ownerId == $0", user.identity).find()
+                try {
+                    delete(diaries)
+                    Resource.Success(true)
+                }catch (e:Exception) {
+                    Resource.Error(e)
                 }
             }
         }else{

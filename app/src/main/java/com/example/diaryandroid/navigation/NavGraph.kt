@@ -152,7 +152,6 @@ fun NavGraphBuilder.homeRoute(
         var signOutDialogOpened by remember { mutableStateOf(false) }
         var deleteAllDialogOpened by remember { mutableStateOf(false) }
 
-
         HomeScreen(
             diaries = diaries,
             drawerState = drawerState,
@@ -164,7 +163,10 @@ fun NavGraphBuilder.homeRoute(
 
             onSignOutClicked = { signOutDialogOpened = true },
             navigateToWrite = navigateToWrite,
-            navigateToWriteWithArgs = navigateToWriteWithArgs
+            navigateToWriteWithArgs = navigateToWriteWithArgs,
+            onDeleteAllClicked = {
+
+            }
         )
 
         DisplayAlertDialog(
@@ -190,7 +192,17 @@ fun NavGraphBuilder.homeRoute(
             message = "Are you sure you want to permanently delete all your diaries?",
             dialogOpened = deleteAllDialogOpened,
             onDialogClosed = { deleteAllDialogOpened = false },
-            onYesClicked = {}
+            onYesClicked = {
+                scope.launch(Dispatchers.IO) {
+                    val user = App.create(APP_ID).currentUser
+                    if (user != null) {
+                        user.logOut()
+                        withContext(Dispatchers.Main) {
+                            navigateToAuth()
+                        }
+                    }
+                }
+            }
         )
     }
 }

@@ -14,5 +14,6 @@ interface MongoRepository {
     fun getSelectedDiary(diaryId: ObjectId): Flow<Resource<Diary>>
     suspend fun insertDiary(diary: Diary): Resource<Diary>
     suspend fun updateDiary(diary: Diary): Resource<Diary>
-    suspend fun deleteDiary(id:ObjectId): Resource<Diary>
+    suspend fun deleteDiary(id:ObjectId): Resource<Boolean>
+    suspend fun deleteAllDiaries():Resource<Boolean>
 }
