@@ -27,7 +27,7 @@ class NetworkConnectivityObserver(context: Context): ConnectivityObserver {
 
                 override fun onLosing(network: Network, maxMsToLive: Int) {
                     super.onLosing(network, maxMsToLive)
-                    launch { send(ConnectivityObserver.Status.Loosing) }
+                    launch { send(ConnectivityObserver.Status.Losing) }
                 }
 
                 override fun onLost(network: Network) {

@@ -7,6 +7,6 @@ interface ConnectivityObserver {
     fun observer():Flow<Status>
 
     enum class Status{
-        Available, Unavailable, Loosing, Lost
+        Available, Unavailable, Losing, Lost
     }
 }

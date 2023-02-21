@@ -145,8 +145,9 @@ fun NavGraphBuilder.homeRoute(
     navigateToAuth: () -> Unit,
 ) {
     composable(route = Screen.Home.route) {
-        val viewModel: HomeViewModel = viewModel()
+        val viewModel: HomeViewModel = hiltViewModel()
         val diaries by viewModel.diaries
+        val context = LocalContext.current
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         var signOutDialogOpened by remember { mutableStateOf(false) }
@@ -165,7 +166,7 @@ fun NavGraphBuilder.homeRoute(
             navigateToWrite = navigateToWrite,
             navigateToWriteWithArgs = navigateToWriteWithArgs,
             onDeleteAllClicked = {
-
+                deleteAllDialogOpened = true
             }
         )
 
@@ -193,15 +194,30 @@ fun NavGraphBuilder.homeRoute(
             dialogOpened = deleteAllDialogOpened,
             onDialogClosed = { deleteAllDialogOpened = false },
             onYesClicked = {
-                scope.launch(Dispatchers.IO) {
-                    val user = App.create(APP_ID).currentUser
-                    if (user != null) {
-                        user.logOut()
-                        withContext(Dispatchers.Main) {
-                            navigateToAuth()
+                viewModel.deleteAllDiaries(
+                    onSuccess = {
+                        Toast.makeText(
+                            context,
+                            "All Diaries Deleted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    },
+                    onError = {
+                        Toast.makeText(
+                            context,
+                            if (it.message == "No Internet Connection")
+                                "We need an internet connection for this operation"
+                            else it.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        scope.launch {
+                            drawerState.close()
                         }
                     }
-                }
+                )
             }
         )
     }
