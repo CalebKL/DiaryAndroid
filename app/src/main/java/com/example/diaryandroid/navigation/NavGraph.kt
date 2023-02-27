@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.auth.navigation.authenticationRoute
 import com.example.navigation.homeRoute
-import com.example.splash.navigation.splashRoute
 import com.example.util.Screen
 import com.example.write.navigation.writeRoute
 
@@ -14,27 +13,18 @@ import com.example.write.navigation.writeRoute
 fun SetupNavGraph(
     startDestination: String,
     navController: NavHostController,
+    onDataLoaded: () -> Unit
 ) {
     NavHost(
         startDestination = startDestination,
         navController = navController
     ) {
-        splashRoute(
-            navigateToHome = {
-                navController.popBackStack()
-                navController.navigate(Screen.Home.route)
-            },
-            navigateToAuth = {
-                navController.popBackStack()
-                navController.navigate(Screen.Authentication.route)
-
-            }
-        )
         authenticationRoute(
             navigateToHome = {
                 navController.popBackStack()
                 navController.navigate(Screen.Home.route)
-            }
+            },
+            onDataLoaded = onDataLoaded
         )
         homeRoute(
             navigateToWrite = {
@@ -46,7 +36,8 @@ fun SetupNavGraph(
             navigateToAuth = {
                 navController.popBackStack()
                 navController.navigate(Screen.Authentication.route)
-            }
+            },
+            onDataLoaded = onDataLoaded
         )
         writeRoute(
             navigateBack = {

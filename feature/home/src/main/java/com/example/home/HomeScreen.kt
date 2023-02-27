@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.example.home.components.EmptyPage
 import com.example.util.common.NoMatchFound
 import com.example.home.components.HomeContent
 import com.example.home.components.HomeTopBar
@@ -46,8 +47,6 @@ internal fun HomeScreen(
    ) {
        Scaffold(
            modifier = Modifier
-               .navigationBarsPadding()
-               .statusBarsPadding()
                .nestedScroll(scrollBehaviour.nestedScrollConnection),
            topBar = {
                HomeTopBar(
@@ -73,11 +72,11 @@ internal fun HomeScreen(
                padding = it
                when(diaries){
                    is Resource.Loading ->{
-                       Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                           GifImageLoader(
-                               modifier = Modifier.size(250.dp),
-                               resource = R.raw.diary_loading
-                           )
+                       Box(
+                           modifier = Modifier.fillMaxSize(),
+                           contentAlignment = Alignment.Center
+                       ) {
+                           CircularProgressIndicator()
                        }
                    }
                    is Resource.Success ->{
@@ -88,8 +87,10 @@ internal fun HomeScreen(
                        )
                    }
                    is Resource.Error ->{
-                       NoMatchFound(lottie = R.raw.no_match_found_dark)
-
+                       EmptyPage(
+                           title = "Error",
+                           subtitle = "${diaries.error.message}"
+                       )
                    }else->{}
                }
            }

@@ -4,8 +4,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.util.DiaryHolder
 import com.example.util.model.Diary
@@ -39,6 +44,34 @@ internal fun HomeContent(
             }
         }
     }else{
-        NoMatchFound(lottie = R.raw.no_match_found_dark)
+        EmptyPage()
+    }
+}
+@Composable
+fun EmptyPage(
+    title: String = "Empty Diary",
+    subtitle: String = "Write Something"
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = title,
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                fontWeight = FontWeight.Medium
+            )
+        )
+        Text(
+            text = subtitle,
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                fontWeight = FontWeight.Normal
+            )
+        )
     }
 }

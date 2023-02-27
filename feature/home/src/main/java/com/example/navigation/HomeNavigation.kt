@@ -13,6 +13,7 @@ import com.example.home.HomeViewModel
 import com.example.ui.components.DisplayAlertDialog
 import com.example.util.Constants
 import com.example.util.Screen
+import com.example.util.model.Resource
 import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,8 @@ fun NavGraphBuilder.homeRoute(
     navigateToWrite: () -> Unit,
     navigateToWriteWithArgs: (String) -> Unit,
     navigateToAuth: () -> Unit,
+    onDataLoaded :()->Unit
+
 ) {
     composable(route = Screen.Home.route) {
         val viewModel: HomeViewModel = hiltViewModel()
@@ -31,7 +34,11 @@ fun NavGraphBuilder.homeRoute(
         val scope = rememberCoroutineScope()
         var signOutDialogOpened by remember { mutableStateOf(false) }
         var deleteAllDialogOpened by remember { mutableStateOf(false) }
-
+        LaunchedEffect(key1 = diaries) {
+            if (diaries !is Resource.Loading) {
+                onDataLoaded()
+            }
+        }
         HomeScreen(
             diaries = diaries,
             drawerState = drawerState,

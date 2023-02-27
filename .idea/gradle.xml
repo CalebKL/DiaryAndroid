@@ -20,7 +20,6 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/auth" />
             <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/write" />
           </set>
         </option>

@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
@@ -24,6 +25,7 @@ import com.example.mongo.database.ImagesToDeleteDao
 import com.example.mongo.database.entity.ImageToDelete
 import com.example.mongo.database.entity.ImageToUpload
 import com.example.ui.R
+import com.example.util.Constants.APP_ID
 import com.example.util.LottieLoader
 import com.example.util.Screen
 import com.google.firebase.FirebaseApp
@@ -45,15 +47,25 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var imagesToDeleteDao: ImagesToDeleteDao
+    private var keepSplashOpened = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen().setKeepOnScreenCondition {
+            keepSplashOpened
+        }
         WindowCompat.setDecorFitsSystemWindows(window, false)
         FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
         setContent {
             DiaryAndroidTheme {
                 val navController = rememberNavController()
-                SetupNavGraph(startDestination = Screen.Splash.route, navController =navController)
+                SetupNavGraph(
+                    startDestination = getStartDestination(),
+                    navController = navController,
+                    onDataLoaded = {
+                        keepSplashOpened = false
+                    }
+                )
             }
         }
         cleanupCheck(
@@ -62,6 +74,11 @@ class MainActivity : ComponentActivity() {
             imagesToDeleteDao = imagesToDeleteDao
         )
     }
+}
+private fun getStartDestination(): String {
+    val user = App.create(APP_ID).currentUser
+    return if (user != null && user.loggedIn) Screen.Home.route
+    else Screen.Authentication.route
 }
 private fun cleanupCheck(
     scope:CoroutineScope,

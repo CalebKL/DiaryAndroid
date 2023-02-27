@@ -55,12 +55,7 @@ fun LottieLoader(
     @RawRes lottieFile: Int
 ) {
     val composition by rememberLottieComposition(
-        spec = LottieCompositionSpec.RawRes(lottieFile),
-        onRetry = { failCount, exception ->
-            Timber.e("Failed ${failCount}X with exception. Reason: ${exception.localizedMessage}")
-            // stop retrying
-            false
-        }
+        spec = LottieCompositionSpec.RawRes(lottieFile)
     )
     val progress by animateLottieCompositionAsState(
         composition,
