@@ -41,7 +41,7 @@ internal fun DateHeader(
         Spacer(modifier = Modifier.width(14.dp))
         Column( horizontalAlignment = Alignment.Start) {
             Text(
-                text = localDate.dayOfMonth.toString().lowercase().replaceFirstChar { it.uppercase() },
+                text = localDate.month.toString().lowercase().replaceFirstChar { it.uppercase() },
                 style = TextStyle(
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
                     fontWeight = FontWeight.Light

@@ -14,9 +14,8 @@ import com.example.util.LottieLoader
 import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.delay
 
-
 @Composable
-internal fun SplashScreen(
+fun SplashScreen(
     navigateToHome:()->Unit,
     navigateToAuth:()->Unit
 ) {

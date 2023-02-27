@@ -1,6 +1,7 @@
 package com.example.diaryandroid
 
 import android.os.Bundle
+import android.provider.UserDictionary
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -23,7 +24,6 @@ import com.example.mongo.database.ImagesToDeleteDao
 import com.example.mongo.database.entity.ImageToDelete
 import com.example.mongo.database.entity.ImageToUpload
 import com.example.ui.R
-import com.example.util.Constants
 import com.example.util.LottieLoader
 import com.example.util.Screen
 import com.google.firebase.FirebaseApp
@@ -115,32 +115,3 @@ fun retryUploadingImageToFirebase(
         imageToUpload.sessionUri.toUri()
     ).addOnSuccessListener { onSuccess() }
 }
-
-@Composable
-fun SplashScreen(
-    navigateToHome:()->Unit,
-    navigateToAuth:()->Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentAlignment = Alignment.Center,
-    ) {
-        var animateLogo by remember { mutableStateOf(true) }
-
-        if (animateLogo) LottieLoader(
-            modifier = Modifier.size(300.dp),
-            lottieFile = R.raw.splash_light_lottie
-        )
-
-        LaunchedEffect(Unit) {
-            delay(5000)
-            animateLogo = false
-            val user = App.create(Constants.APP_ID).currentUser
-            if (user != null && user.loggedIn) navigateToHome()
-            else navigateToAuth()
-        }
-    }
-}
-

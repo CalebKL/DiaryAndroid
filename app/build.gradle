@@ -52,12 +52,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion ProjectConfig.extensionVersion
     }
-
     packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
+        pickFirst 'META-INF/gradle/incremental.annotation.processors'
     }
+
 }
 dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
