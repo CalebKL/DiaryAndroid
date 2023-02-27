@@ -16,32 +16,44 @@ This is a mobile application that lets users access their diaries after signing 
 - Firebase Storage for uploaded images
 - Build a fully functional Android app built entirely with Kotlin and Jetpack Compose.
 
-### Status: 👨‍💻 Complete
+### Status: 👨‍💻 Under Constant Development
 
-<p>Diary Android is complete and will be updated if any issues arise.</p>
+<p>Diary Android is still work in progress and will be updated constantly.</p>
 
 </td> 
 <td>
 
-https://user-images.githubusercontent.com/95022986/198877532-4e445329-991d-40f7-8857-a0b20373cb58.mp4
+https://user-images.githubusercontent.com/95022986/221592272-71f774ea-a2c7-442d-93d3-e6f3ca82a3b8.mp4
 </td>
 </tr>
 </table>
 
 ## Setup Requirements
 Clone the repository and sign up with your gmail account in order to log in and add, update or delete diaries
-```gradle
-    API_KEY = "API_KEY_VALUE"
-```
 
-## 🌚 Screenshots
-|   Movies Screen    |  TV Shows Screen    |   Splash Screen   |  SearchScreen |
+
+## 🌚 Screenshots(Dark)
+|   Splash Screen    |  Signing Up   |   Authentication Screen   |  Home Screen |
 |---	|---	|---    |---   
-| ![movie page](https://user-images.githubusercontent.com/95022986/198876688-2ff49872-45f2-4463-b623-138c07f7493b.jpg)|  ![TVShow](https://user-images.githubusercontent.com/95022986/198876753-a691133a-6488-48c6-b967-045da852009f.jpg)|   ![Splash](https://user-images.githubusercontent.com/95022986/198876845-3cf5842e-9afd-42f9-b9d6-86fee72fb58a.jpg)| ![Search](https://user-images.githubusercontent.com/95022986/198876911-634896bd-5b55-430f-b15b-ac22cfe70a0c.jpg)
+|![splash](https://user-images.githubusercontent.com/95022986/221582385-5bd13939-3d69-4593-8700-e141eae471e6.jpg)| ![Sign up](https://user-images.githubusercontent.com/95022986/221583194-015f17d0-4d42-476d-9f10-e721bcaf8d17.jpg)| ![Authentication](https://user-images.githubusercontent.com/95022986/221583803-688a93a3-dfa0-45b0-b138-36be4e73f993.jpg)| ![Home](https://user-images.githubusercontent.com/95022986/221584374-614f82b5-45b3-487e-a6e1-7d20c25bc6ef.jpg)
 
-|    Details Screen    |  My List Screen    | 
-|---	|---
-| ![Details](https://user-images.githubusercontent.com/95022986/198876996-b281495f-a390-4e04-a442-ea79af69d95b.jpg)|  ![myList](https://user-images.githubusercontent.com/95022986/198877108-4b70bf09-eb50-4a1c-b855-19b21e27176c.jpg)
+
+|    Empty Screen    |  Write Screen    |   Calender Selection   |  Time Selection |
+|---	|---	|---    |---  
+| ![Empty](https://user-images.githubusercontent.com/95022986/221584941-4cf6cdd8-6da1-49f7-99de-c998387fc8d9.jpg)| ![Write](https://user-images.githubusercontent.com/95022986/221585310-e7b3a90f-7d13-487c-9fbf-e48588933b30.jpg) | ![Calender](https://user-images.githubusercontent.com/95022986/221586003-f40b029f-4f39-4d19-a171-575703a3014b.jpg) | ![Time ](https://user-images.githubusercontent.com/95022986/221586183-7f402ef6-be1f-4ec5-aa93-ab3563d316d4.jpg)
+
+## 🌚 Screenshots(Light)
+|   Splash Screen    |  Signing Up   |   Authentication Screen   |  Home Screen |
+|---	|---	|---    |---   
+|![Splash](https://user-images.githubusercontent.com/95022986/221587621-ab02766f-5f09-4412-b2d0-5e662914c41a.jpg)| ![Signup](https://user-images.githubusercontent.com/95022986/221587902-d43907fe-5e2c-412c-a90a-12d05c8afe25.jpg) | ![Authentication](https://user-images.githubusercontent.com/95022986/221588146-4f447993-d4ab-43cc-bf90-d3b0201146ed.jpg)| ![Home](https://user-images.githubusercontent.com/95022986/221588292-c499240b-72f2-43c7-be93-cee6ed2c9980.jpg)
+
+
+
+|    Empty Screen    |  Write Screen    |   Calender Selection   |  Time Selection |
+|---	|---	|---    |---  
+| ![Empty](https://user-images.githubusercontent.com/95022986/221588570-c0ae645d-b933-43e4-9167-621299bf1bd6.jpg) |![Write](https://user-images.githubusercontent.com/95022986/221588803-dcf18f2d-8b5c-41a9-b8f2-da7e3e29249c.jpg) |![Calender](https://user-images.githubusercontent.com/95022986/221588956-139c084c-6f01-457c-a207-a56d39aa7920.jpg) | ![Time](https://user-images.githubusercontent.com/95022986/221589107-0b701d20-d11c-48f5-8e19-7984f84b2a53.jpg)
+
+
 |
 
 ## 🛠 Built With
@@ -55,20 +67,23 @@ Clone the repository and sign up with your gmail account in order to log in and 
      objects with protocol buffers. DataStore uses Kotlin coroutines and Flow to store data
      asynchronously, consistently, and transactionally.
   - [AndroidX](https://developer.android.com/jetpack/androidx) - Major improvement to the original Android [Support Library](https://developer.android.com/topic/libraries/support-library/index), which is no longer maintained.
-  - [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle) - Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.
   - [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html) - A flow is an asynchronous
     version of a Sequence, a type of collection whose values are lazily produced.
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) -The ViewModel class is designed to store and manage UI-related data in a lifecycle conscious way.
-  - [Paging 3 library](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network. This approach allows your app to use both network bandwidth and system resources more efficiently.
   - [Room database](https://developer.android.com/training/data-storage/room) - The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. -
 
 - [Retrofit](https://square.github.io/retrofit) -  Retrofit is a REST client for Java/ Kotlin and Android by Square inc under Apache 2.0 license. Its a simple network library that is used for network transactions. By using this library we can seamlessly capture JSON response from web service/web API.
-- [GSON](https://github.com/square/gson) - JSON Parser,used to parse requests on the data layer for Entities and understands Kotlin non-nullable and default parameters.
 - [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - A dependency injection library for Android that reduces the boilerplate of doing manual dependency injection in your project.
-- [Ramcosta Navigation Library](https://composedestinations.rafaelcosta.xyz/) - A KSP library that processes annotations and generates code that uses Official Jetpack Compose Navigation under the hood. It hides the complex, non-type-safe and boilerplate code you would have to write otherwise.
+- [Timber](https://github.com/JakeWharton/timber)- A logger with a small, extensible API which provides utility on top of Android's normal Log class.
 - [Logging Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md) -  logs HTTP request and response data.
 - [Coil](https://coil-kt.github.io/coil/compose/)- An image loading library for Android backed by Kotlin Coroutines.
-
+- [Time-dialog](https://github.com/maxkeppeler/sheets-compose-dialogs/tree/main/calendar)- Date time picker
+- [Date-dialog](https://github.com/maxkeppeler/sheets-compose-dialogs/tree/main/clock)- Calender picker
+- [Message-bar-compose](https://github.com/stevdza-san/MessageBarCompose)- Message Bar compose 
+- [One-tap-compose](https://github.com/stevdza-san/GoogleAuthApp)- One tap sign in
+- [Firebase-Auth](https://firebase.google.com/docs/auth/android/start)- Firebase authentication library to authenticate users using Firebase 
+- [Firebase-Storage](https://firebase.google.com/docs/storage/android/start)- Firebase Storage library to store uploaded pictures
+- [Realm-Sync](https://github.com/mongodb-developer/get-started-realm-sync-android-app)- Realm sync for Mongo DB
 <br />
 
 ## 🧰 Build-tool
@@ -79,9 +94,6 @@ If you want to contribute to this app, you're always welcome!
 <br>
 
 ## 📩 Contact
-
-I know that first and foremost you are looking for a tool to solve your problems, but if you enjoy
-it that much, why not tell us? We would love to hear from you 😉
 
 DM me at 👇
 
