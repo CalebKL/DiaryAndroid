@@ -7,6 +7,17 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/buildSrc/build
+/buildSrc/.gradle
+/app/build
+/data/mongo/build
+/feature/auth/build
+/feature/home/build
+/feature/write/build
+/core/ui/build
+/core/ui/.gradle
+build
+.idea
 .DS_Store
 /build
 /captures
