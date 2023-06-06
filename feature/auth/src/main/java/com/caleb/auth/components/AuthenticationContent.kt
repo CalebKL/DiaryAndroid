@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.caleb.ui.components.GoogleButton
-import com.example.ui.R
+import com.caleb.ui.R
 
 @Composable
 internal fun AuthenticationContent(

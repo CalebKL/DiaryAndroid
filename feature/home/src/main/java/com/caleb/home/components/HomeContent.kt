@@ -16,7 +16,7 @@ import com.caleb.util.DiaryHolder
 import com.caleb.util.model.Diary
 import com.caleb.util.common.NoMatchFound
 import java.time.LocalDate
-import com.example.home.R
+import com.caleb.home.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

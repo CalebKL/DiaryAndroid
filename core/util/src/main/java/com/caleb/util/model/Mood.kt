@@ -2,7 +2,7 @@ package com.caleb.util.model
 
 import androidx.compose.ui.graphics.Color
 import com.caleb.ui.theme.*
-import com.example.util.R
+import com.caleb.util.R
 
 enum class Mood(
     val icon: Int,

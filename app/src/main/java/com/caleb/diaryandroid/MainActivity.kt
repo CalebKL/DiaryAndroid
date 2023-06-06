@@ -24,7 +24,7 @@ import com.caleb.mongo.database.ImageToUploadDao
 import com.caleb.mongo.database.ImagesToDeleteDao
 import com.caleb.mongo.database.entity.ImageToDelete
 import com.caleb.mongo.database.entity.ImageToUpload
-import com.example.ui.R
+import com.caleb.ui.R
 import com.caleb.util.Constants.APP_ID
 import com.caleb.util.LottieLoader
 import com.caleb.util.Screen

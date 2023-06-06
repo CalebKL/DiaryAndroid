@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.ui.R
+import com.caleb.ui.R
 
 @Composable
 internal fun NavigationDrawer(
@@ -32,7 +32,7 @@ internal fun NavigationDrawer(
                         contentAlignment = Alignment.Center){
                         Image(
                             modifier = Modifier.size(250.dp),
-                            painter = painterResource(id =  com.example.ui.R.drawable.logo),
+                            painter = painterResource(id =  com.caleb.ui.R.drawable.logo),
                             contentDescription = "logo"
                         )
                     }
