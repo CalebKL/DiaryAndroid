@@ -8,7 +8,7 @@ plugins {
     id 'com.google.gms.google-services'
 }
 android {
-    namespace 'com.example.diaryandroid'
+    namespace 'com.caleb.diaryandroid'
     compileSdk ProjectConfig.compileSdk
     kotlin {
         sourceSets {
@@ -21,7 +21,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId "com.example.diaryandroid"
+        applicationId "com.caleb.diaryandroid"
         minSdk ProjectConfig.minSdk
         targetSdk ProjectConfig.targetSdk
         versionCode 1

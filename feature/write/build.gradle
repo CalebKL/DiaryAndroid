@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.write'
+    namespace 'com.caleb.write'
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {

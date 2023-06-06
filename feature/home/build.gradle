@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.home'
+    namespace 'com.caleb.home'
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.ui'
+    namespace 'com.caleb.ui'
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {

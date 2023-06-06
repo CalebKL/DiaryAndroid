@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.mongo'
+    namespace 'com.caleb.mongo'
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {
